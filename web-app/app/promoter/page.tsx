@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import Link from 'next/link';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function PromoterDashboard() {
+    const { name } = useSiteConfig();
     const { user, isAuthenticated, isVerified } = useAuth();
     const router = useRouter();
     const activityLogs = useQuery(api.activityLogs.listAll);
@@ -39,23 +40,23 @@ export default function PromoterDashboard() {
             <div className="max-w-7xl mx-auto space-y-8">
                 {/* Header */}
                 <header className="space-y-4">
-                    <div className="flex items-center justify-between"> 
+                    <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-5xl font-black uppercase italic tracking-tighter neon-text-pink">
                                 Dashboard <span className="text-white">Promotor</span>
                             </h1>
                             <p className="text-xs font-bold tracking-[0.3em] uppercase text-white/40 mt-2">
-                                Panel de Control de Karla Spice
+                                Panel de Control de {name}
                             </p>
                         </div>
-                        <Link href="/" className="cyber-button">        
+                        <Link href="/" className="cyber-button">
                             ← Volver al Sitio
                         </Link>
                     </div>
                 </header>
 
                 {/* Quick Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> 
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="glass-card p-6 space-y-2">
                         <p className="text-xs font-black uppercase tracking-widest text-white/40">Total Clientes</p>
                         <p className="text-4xl font-black neon-text-cyan">{activityLogs?.filter(log => log.action === 'user_registered').length || 0}</p>
@@ -79,7 +80,7 @@ export default function PromoterDashboard() {
                 <section className="glass-card p-8 space-y-6">
                     <h2 className="text-2xl font-black uppercase italic neon-text-cyan">Registro de Actividad</h2>
                     <div className="space-y-2 max-h-[500px] overflow-y-auto">
-                        {activityLogs?.slice(0, 50).map((log) => (      
+                        {activityLogs?.slice(0, 50).map((log) => (
                             <div key={log._id} className="bg-white/5 border border-white/10 p-4 rounded-lg hover:border-[var(--color-neon-cyan)]/30 transition-all">
                                 <div className="flex justify-between items-start">
                                     <div className="space-y-1">

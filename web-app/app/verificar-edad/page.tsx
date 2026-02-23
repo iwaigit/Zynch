@@ -1,11 +1,11 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import RegisterForm from '@/components/RegisterForm';
 import Link from 'next/link';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function VerificarEdad() {
+    const { name } = useSiteConfig();
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
 
@@ -31,7 +31,7 @@ export default function VerificarEdad() {
                         <span className="text-white opacity-20">DE</span> REGISTRO
                     </h1>
                     <div className="inline-block px-4 py-1 glass-card border-[var(--color-neon-cyan)]/30">
-                        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-neon-cyan)]">Karla Spice Fun v1.0</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-neon-cyan)]">{name} Fun v1.0</p>
                     </div>
                 </div>
 
