@@ -16,8 +16,7 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ initialMode = 'register', onClose }: RegisterFormProps) {
-    const { name } = useSiteConfig();
-    const initials = name.split(' ').map(n => n[0]).join('');
+    const { name, initials } = useSiteConfig();
     const { login: authLogin } = useAuth();
     const registerMutation = useMutation(api.users.register);
     const loginMutation = useMutation(api.users.login);

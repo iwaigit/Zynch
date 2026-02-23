@@ -5,8 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function AdminSidebar() {
-    const { name } = useSiteConfig();
-    const initials = name.split(' ').map(n => n[0]).join('');
+    const { name, initials } = useSiteConfig();
     const pathname = usePathname();
 
     const menuItems = [

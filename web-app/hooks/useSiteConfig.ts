@@ -9,15 +9,24 @@ import { siteConfig as staticConfig } from "@/config/site";
 export function useSiteConfig() {
     const dynamicConfig = useQuery(api.siteConfig.get);
 
+    const name = dynamicConfig?.performerName || staticConfig.name;
+    const initials = name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
+
     if (!dynamicConfig) {
         return {
             ...staticConfig,
+            initials,
             isLoading: dynamicConfig === undefined,
         };
     }
 
     return {
-        name: dynamicConfig.performerName,
+        name,
+        initials,
         tagline: dynamicConfig.tagline,
         description: dynamicConfig.metaDescription,
         bio: dynamicConfig.bio,

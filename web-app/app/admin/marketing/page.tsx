@@ -1,16 +1,27 @@
-'use client';
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function MarketingAdmin() {
+    const { name, initials } = useSiteConfig();
     const [formData, setFormData] = useState({
-        siteTitle: 'Karla Spice Fun',
-        heroText: 'Bienvenido al Universo KS',
+        siteTitle: '',
+        heroText: '',
         subText: 'Contenido exclusivo, lencería de lujo y juguetes diseñados para tus deseos más profundos.',
-        telegramLink: '@KarlaSpiceOfficial',
+        telegramLink: '@PerformerOfficial',
         whatsappLink: '+34 600 000 000',
         promoVip: 'Suscríbete para recibir contenido y ofertas especiales.'
     });
+
+    useEffect(() => {
+        if (name) {
+            setFormData(prev => ({
+                ...prev,
+                siteTitle: `${name} Fun`,
+                heroText: `Bienvenido al Universo ${initials}`,
+                telegramLink: `@${name.replace(/\s+/g, '')}Official`
+            }));
+        }
+    }, [name, initials]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
