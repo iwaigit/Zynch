@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useAuth } from '@/context/AuthContext';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 import { registrationSchema } from '@/lib/validators';
 import { translateError } from '@/lib/errorMessages';
 
@@ -15,6 +16,8 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ initialMode = 'register', onClose }: RegisterFormProps) {
+    const { name } = useSiteConfig();
+    const initials = name.split(' ').map(n => n[0]).join('');
     const { login: authLogin } = useAuth();
     const registerMutation = useMutation(api.users.register);
     const loginMutation = useMutation(api.users.login);
@@ -23,7 +26,7 @@ export default function RegisterForm({ initialMode = 'register', onClose }: Regi
         email: '',
         birthdate: '',
         phone: '+',
-        password: 'KS',
+        password: initials,
     });
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [errorMsg, setErrorMsg] = useState('');
@@ -134,7 +137,7 @@ export default function RegisterForm({ initialMode = 'register', onClose }: Regi
                 <p className="text-white/60 font-bold">
                     {mode === 'forgot'
                         ? 'Revisa tu bandeja de entrada para el código de recuperación.'
-                        : 'Bienvenido de nuevo al ecosistema premium de Karla Spice.'}
+                        : `Bienvenido de nuevo al ecosistema premium de ${name}.`}
                 </p>
                 <button
                     onClick={() => {
@@ -228,7 +231,7 @@ export default function RegisterForm({ initialMode = 'register', onClose }: Regi
                     {mode !== 'forgot' && (
                         <div className="space-y-2">
                             <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex justify-between">
-                                <span>Clave (KS + 5 números)</span>
+                                <span>Clave ({initials} + 5 números)</span>
                                 {mode === 'login' && (
                                     <button type="button" onClick={() => setMode('forgot')} className="text-ks-neon-cyan hover:underline hover:neon-text-cyan transition-all">¿Olvidaste tu clave?</button>
                                 )}
@@ -237,7 +240,7 @@ export default function RegisterForm({ initialMode = 'register', onClose }: Regi
                                 type="text"
                                 required
                                 maxLength={7}
-                                placeholder="KS12345"
+                                placeholder={`${initials}12345`}
                                 className="w-full bg-white/5 border border-white/10 p-4 rounded-lg font-bold outline-none focus:border-[var(--color-neon-yellow)] tracking-widest"
                                 value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value.toUpperCase() })}

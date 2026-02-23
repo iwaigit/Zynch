@@ -62,18 +62,18 @@ export const initialize = mutation({
         if (existing) return existing._id;
 
         return await ctx.db.insert("siteConfig", {
-            performerName: "Karla Spice",
+            performerName: "Performer Name",
             tagline: "Official Site",
             primaryColor: "#ff2d75", // Neon Pink
             secondaryColor: "#00f3ff", // Neon Cyan
             socialLinks: {
-                instagram: "https://instagram.com/karlaspice",
-                twitter: "https://twitter.com/karlaspice",
-                onlyfans: "https://onlyfans.com/karlaspice",
+                instagram: "",
+                twitter: "",
+                onlyfans: "",
             },
-            contactEmail: "contact@karlaspice.fun",
-            bio: "Official digital platform of Karla Spice. Exclusive content, personalized experiences, and direct connection.",
-            metaDescription: "Karla Spice Official Site - Exclusive Gallery, Content Packs and more.",
+            contactEmail: "contact@domain.fun",
+            bio: "Official digital platform. Exclusive content, personalized experiences, and direct connection.",
+            metaDescription: "Official Site - Exclusive Gallery, Content Packs and more.",
             updatedAt: Date.now(),
         });
     },

@@ -4,16 +4,16 @@
  * o si no hay datos en la BD.
  */
 export const siteConfig = {
-    name: "Karla Spice",
+    name: "Performer Name",
     tagline: "Official Site",
-    description: "Official digital platform of Karla Spice. Exclusive content, personalized experiences, and direct connection.",
+    description: "Official digital platform. Exclusive content, personalized experiences, and direct connection.",
     links: {
-        instagram: "https://instagram.com/karlaspice",
-        twitter: "https://twitter.com/karlaspice",
-        onlyfans: "https://onlyfans.com/karlaspice",
+        instagram: "",
+        twitter: "",
+        onlyfans: "",
         tiktok: "",
     },
-    email: "contact@karlaspice.fun",
+    email: "contact@domain.fun",
     colors: {
         primary: "#ff2d75",   // Neon Pink
         secondary: "#00f3ff", // Neon Cyan
