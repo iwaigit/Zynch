@@ -1,24 +1,19 @@
-'use client';
-
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AdminSidebar from '@/components/AdminSidebar';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const { user, isAuthenticated, loading } = useAuth();
     const router = useRouter();
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        console.log('loading:', loading);
-        console.log('isAuthenticated:', isAuthenticated);
-        console.log('user:', user);
-
         if (loading) return;
 
         if (!isAuthenticated) {
-        router.push('/');
-        return;
+            router.push('/');
+            return;
         }
 
         if (user?.role !== 'admin') {
@@ -31,9 +26,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
 
     return (
-        <div className="flex min-h-screen bg-[#0d0d12]">
-            <AdminSidebar />
-            <main className="flex-1">
+        <div className="flex min-h-screen bg-[#0d0d12] overflow-x-hidden relative">
+            <AdminSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+            <main className={`flex-1 transition-transform duration-300 ${isOpen ? 'translate-x-56 lg:translate-x-0' : 'translate-x-0'}`}>
                 {children}
             </main>
         </div>

@@ -19,7 +19,7 @@ export default function AdminDashboard() {
         <main className="flex-1 p-8 md:p-12 space-y-12">
             <header className="flex justify-between items-end">
                 <div className="space-y-1">
-                    <h2 className="text-6xl font-black uppercase italic tracking-tight">Main <span className="neon-text-cyan">Control</span></h2>
+                    <h2 className="text-3xl font-black uppercase italic tracking-tight leading-none">Main <span className="neon-text-cyan">Control</span></h2>
                     <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.3em] font-mono tracking-widest">{name} Enterprise Global Gateway</p>
                 </div>
                 <div className="flex items-center gap-4">
@@ -47,7 +47,7 @@ export default function AdminDashboard() {
                 ].map((stat) => (
                     <div key={stat.label} className="glass-card p-6 border-white/5 space-y-2 group hover:border-white/20 transition-all">
                         <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-neon-cyan)]">{name} Platform v1.0</p>
-                        <p className={`text-4xl font-black italic tracking-tighter ${stat.color}`}>{stat.value}</p>
+                        <p className={`text-2xl font-black italic tracking-tighter ${stat.color}`}>{stat.value}</p>
                     </div>
                 ))}
             </div>
