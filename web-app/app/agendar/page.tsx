@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 import AppointmentSystem from '@/components/AppointmentSystem';
 import Link from 'next/link';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function AgendarPage() {
+    const { name } = useSiteConfig();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -28,7 +30,7 @@ export default function AgendarPage() {
                 </Link>
                 <div className="flex gap-4 items-center">
                     <div className="h-[2px] w-12 bg-[var(--color-neon-pink)] hidden md:block" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">KARLA_SPICE_BOOKING_SYSTEM</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">{name.replace(' ', '_').toUpperCase()}_BOOKING_SYSTEM</span>
                 </div>
             </nav>
 

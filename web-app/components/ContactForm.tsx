@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 
+import { useSiteConfig } from '@/hooks/useSiteConfig';
+
 export default function ContactForm() {
+    const { name } = useSiteConfig();
     const [formData, setFormData] = useState({
         nombre: '',
         prefijo: '',
@@ -45,7 +48,7 @@ export default function ContactForm() {
                         value={formData.nombre}
                         onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
                         className="w-full bg-white/5 border border-white/10 p-3 rounded-lg font-bold text-sm text-white outline-none focus:border-[var(--color-neon-cyan)] focus:bg-white/[0.08] transition-all"
-                        placeholder="Karla Lover"
+                        placeholder={`${name} Fan`}
                     />
                 </div>
 

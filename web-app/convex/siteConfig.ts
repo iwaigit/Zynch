@@ -78,3 +78,34 @@ export const initialize = mutation({
         });
     },
 });
+/**
+ * Fuerza el reset de la configuración a los valores de marca blanca por defecto.
+ */
+export const resetToDefaults = mutation({
+    args: {},
+    handler: async (ctx) => {
+        const existing = await ctx.db.query("siteConfig").first();
+        const defaults = {
+            performerName: "Performer Name",
+            tagline: "Official Site",
+            primaryColor: "#ff2d75",
+            secondaryColor: "#00f3ff",
+            socialLinks: {
+                instagram: "",
+                twitter: "",
+                onlyfans: "",
+            },
+            contactEmail: "contact@domain.fun",
+            bio: "Official digital platform. Exclusive content, personalized experiences, and direct connection.",
+            metaDescription: "Official Site - Exclusive Gallery, Content Packs and more.",
+            updatedAt: Date.now(),
+        };
+
+        if (existing) {
+            await ctx.db.patch(existing._id, defaults);
+            return existing._id;
+        } else {
+            return await ctx.db.insert("siteConfig", defaults);
+        }
+    },
+});

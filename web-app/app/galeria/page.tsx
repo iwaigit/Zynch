@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import Gallery from '@/components/Gallery';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function GaleriaPage() {
+    const { name } = useSiteConfig();
     const router = useRouter();
     const { t, language } = useLanguage();
     const [isVerified, setIsVerified] = useState<boolean | null>(null);
@@ -28,7 +30,7 @@ export default function GaleriaPage() {
                     {t('nav.back_profile')}
                 </Link>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">
-                    EXCL_GATE_KARLA_V2
+                    EXCL_GATE_{name.replace(' ', '_').toUpperCase()}_V2
                 </div>
             </nav>
 

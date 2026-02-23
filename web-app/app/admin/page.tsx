@@ -2,9 +2,19 @@
 
 import Link from 'next/link';
 import { useSiteConfig } from '@/hooks/useSiteConfig';
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
 export default function AdminDashboard() {
     const { name } = useSiteConfig();
+    const resetDefaults = useMutation(api.siteConfig.resetToDefaults);
+
+    const handleReset = async () => {
+        if (confirm('¿Estás seguro de resetear la marca a "Performer Name"?')) {
+            await resetDefaults();
+            window.location.reload();
+        }
+    };
     return (
         <main className="flex-1 p-8 md:p-12 space-y-12">
             <header className="flex justify-between items-end">
@@ -12,9 +22,17 @@ export default function AdminDashboard() {
                     <h2 className="text-6xl font-black uppercase italic tracking-tight">Main <span className="neon-text-cyan">Control</span></h2>
                     <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.3em] font-mono tracking-widest">{name} Enterprise Global Gateway</p>
                 </div>
-                <div className="glass-card bg-white/5 py-2 px-6 flex items-center gap-3 border-white/10">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
-                    <span className="font-black uppercase text-[10px] tracking-widest text-white/60">Sistema Operativo</span>
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={handleReset}
+                        className="text-[8px] font-black uppercase tracking-widest text-white/10 hover:text-red-500 transition-colors border border-white/5 px-3 py-1 rounded"
+                    >
+                        Reset Branding Data
+                    </button>
+                    <div className="glass-card bg-white/5 py-2 px-6 flex items-center gap-3 border-white/10">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
+                        <span className="font-black uppercase text-[10px] tracking-widest text-white/60">Sistema Operativo</span>
+                    </div>
                 </div>
             </header>
 
