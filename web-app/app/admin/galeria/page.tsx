@@ -5,9 +5,11 @@ import { useQuery, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { processImage } from '@/lib/image';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 import { imageSchema } from '@/lib/validators';
 
 export default function GaleriaAdmin() {
+    const { name, initials } = useSiteConfig();
     const photos = useQuery(api.gallery.listPhotos);
     const generateUploadUrl = useMutation(api.gallery.generateUploadUrl);
     const savePhoto = useMutation(api.gallery.savePhoto);
@@ -35,12 +37,12 @@ export default function GaleriaAdmin() {
 
         setIsUploading(true);
         try {
-            // 2. Generar Nombre Secuencial (KSF_01, KSF_02...)
+            // 2. Generar Nombre Secuencial (InitialsF_01, InitialsF_02...)
             const nextOrder = (photos?.length || 0) + 1;
-            const sequentialName = `KSF_${String(nextOrder).padStart(2, '0')}`;
+            const sequentialName = `${initials}F_${String(nextOrder).padStart(2, '0')}`;
 
             // 3. Procesar Imagen (Resize + Watermark + Rename + Compress)
-            const processedFile = await processImage(file, sequentialName);
+            const processedFile = await processImage(file, sequentialName, name);
 
             const postUrl = await generateUploadUrl();
             const result = await fetch(postUrl, {
@@ -91,9 +93,8 @@ export default function GaleriaAdmin() {
                         <button
                             onClick={() => fileInputRef.current?.click()}
                             disabled={isUploading || (photos?.length || 0) >= 24}
-                            className={`px-8 py-4 font-black uppercase text-xs tracking-widest transition-all shadow-pop ${
-                                isUploading ? 'bg-gray-600 cursor-not-allowed' : 'bg-white text-black hover:bg-[var(--color-neon-cyan)]'
-                            }`}
+                            className={`px-8 py-4 font-black uppercase text-xs tracking-widest transition-all shadow-pop ${isUploading ? 'bg-gray-600 cursor-not-allowed' : 'bg-white text-black hover:bg-[var(--color-neon-cyan)]'
+                                }`}
                         >
                             {isUploading ? 'Subiendo...' : '+ Subir Nueva Foto'}
                         </button>
@@ -107,8 +108,8 @@ export default function GaleriaAdmin() {
                         <div className="space-y-2">
                             <h3 className="text-sm font-black uppercase tracking-widest text-red-400">Advertencia de Contenido</h3>
                             <p className="text-xs text-white/70 leading-relaxed">
-                                Esta galería contiene material de carácter explícito sexual destinado exclusivamente para mayores de 18 años. 
-                                Al gestionar y publicar este contenido, usted confirma su responsabilidad legal y acepta que todo el material cumple 
+                                Esta galería contiene material de carácter explícito sexual destinado exclusivamente para mayores de 18 años.
+                                Al gestionar y publicar este contenido, usted confirma su responsabilidad legal y acepta que todo el material cumple
                                 con las regulaciones aplicables. La distribución no autorizada está estrictamente prohibida.
                             </p>
                         </div>

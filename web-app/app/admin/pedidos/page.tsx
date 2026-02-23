@@ -5,8 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { useSiteConfig } from "@/hooks/useSiteConfig";
 
 export default function PedidosAdmin() {
-    const { name } = useSiteConfig();
-    const initials = name.split(' ').map(n => n[0]).join('');
+    const { name, initials } = useSiteConfig();
     const orders = useQuery(api.orders.listAll);
 
     return (
