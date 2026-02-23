@@ -17,8 +17,8 @@ export function translateError(error: string): string {
 
     // Password errors
     if (cleanError.includes('contraseña') || cleanError.includes('password') || cleanError.includes('clave')) {
-        if (cleanError.includes('KS') || cleanError.includes('5 dígitos')) {
-            return '🔑 La contraseña debe comenzar con KS seguido de 5 números. Ejemplo: KS12345';
+        if (cleanError.includes('dígitos') || cleanError.includes('números')) {
+            return `🔑 La contraseña debe comenzar con tus iniciales seguidas de 5 números.`;
         }
     }
 

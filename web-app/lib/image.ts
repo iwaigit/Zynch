@@ -4,7 +4,7 @@
  * @param newName Nuevo nombre para el archivo (ej: KSF_01)
  * @returns Archivo procesado en formato WebP
  */
-export async function processImage(file: File, newName: string): Promise<File> {
+export async function processImage(file: File, newName: string, watermarkText: string = 'Official Content'): Promise<File> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -50,7 +50,7 @@ export async function processImage(file: File, newName: string): Promise<File> {
                 ctx.save();
                 ctx.translate(width / 2, height / 2);
                 ctx.rotate(-Math.PI / 6); // Rotar -30 grados
-                ctx.fillText('karlaspice.fun', 0, 0);
+                ctx.fillText(watermarkText.toLowerCase(), 0, 0);
                 ctx.restore();
 
                 // 5. Agregar Marca de Agua Footer (Copyright) - 25% más grande
@@ -61,7 +61,7 @@ export async function processImage(file: File, newName: string): Promise<File> {
                 ctx.textBaseline = 'bottom';
 
                 // Texto del footer con símbolo de copyright
-                const copyrightText = '© karlaspice.fun - Todos los derechos reservados. Distribución no autorizada prohibida.';
+                const copyrightText = `© ${watermarkText.toLowerCase()} - Todos los derechos reservados. Distribución no autorizada prohibida.`;
                 ctx.fillText(copyrightText, width / 2, height - 10);
 
                 // 6. Exportar como WebP comprimido

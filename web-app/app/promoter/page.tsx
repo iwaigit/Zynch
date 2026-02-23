@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
+import Link from 'next/link';
 import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function PromoterDashboard() {
