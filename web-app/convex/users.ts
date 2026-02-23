@@ -10,6 +10,10 @@ export const register = mutation({
         phone: v.string(),
     },
     handler: async (ctx, args) => {
+        // Obtenemos la configuración para las iniciales del nombre
+        const config = await ctx.db.query("siteConfig").first();
+        const initials = config ? config.performerName.split(' ').map(n => n[0]).join('').toUpperCase() : "KS";
+
         // Check if email already exists
         const existingUser = await ctx.db
             .query("users")
@@ -37,9 +41,10 @@ export const register = mutation({
             throw new Error("Por favor verifica tu fecha de nacimiento.");
         }
 
-        // Validate password format KSXXXXX
-        if (!/^KS\d{5}$/.test(args.password)) {
-            throw new Error("La contraseña debe ser KS seguido de 5 dígitos (ej: KS12345).");
+        // Validate password format (Initials + 5 digits)
+        const passwordRegex = new RegExp(`^${initials}\\d{5}$`);
+        if (!passwordRegex.test(args.password)) {
+            throw new Error(`La contraseña debe ser ${initials} seguido de 5 dígitos (ej: ${initials}12345).`);
         }
 
         // Validate phone format (international)
@@ -203,8 +208,11 @@ export const createAdminUser = mutation({
         }
 
         // Validate password format
-        if (!/^KS\d{5}$/.test(args.password)) {
-            throw new Error("La contraseña debe empezar por 'KS' seguido de 5 números.");
+        const config = await ctx.db.query("siteConfig").first();
+        const initials = config ? config.performerName.split(' ').map(n => n[0]).join('').toUpperCase() : "KS";
+        const passwordRegex = new RegExp(`^${initials}\\d{5}$`);
+        if (!passwordRegex.test(args.password)) {
+            throw new Error(`La contraseña debe empezar por '${initials}' seguido de 5 números.`);
         }
 
         // Insert admin user
@@ -251,9 +259,9 @@ export const isUserVerified = query({
 
 // Actualizar estado de verificación
 export const markUserAsVerified = mutation({
-    args: { 
+    args: {
         userId: v.id("users"),
-        birthdate: v.string() 
+        birthdate: v.string()
     },
     handler: async (ctx, args) => {
         const birthDate = new Date(args.birthdate);
