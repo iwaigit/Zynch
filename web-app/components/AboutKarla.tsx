@@ -59,7 +59,7 @@ export default function AboutKarla() {
                     </div>
 
                     <p className="text-sm font-bold text-white/50 leading-relaxed max-w-md">
-                        {bio}
+                        {bio ? bio.replace('Karla Spice', name) : `Official digital platform of ${name}. Exclusive content, personalized experiences, and direct connection.`}
                     </p>
 
                     {/* Stats Bars */}

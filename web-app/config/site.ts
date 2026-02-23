@@ -7,6 +7,7 @@ export const siteConfig = {
     name: "Performer Name",
     tagline: "Official Site",
     description: "Official digital platform. Exclusive content, personalized experiences, and direct connection.",
+    bio: "Official digital platform. Exclusive content, personalized experiences, and direct connection.",
     links: {
         instagram: "",
         twitter: "",
