@@ -5,6 +5,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useCart } from '@/context/CartContext';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 const PACKS = [
     {
@@ -43,6 +44,7 @@ const PACKS = [
 ];
 
 export default function Gallery() {
+    const { name } = useSiteConfig();
     const { t, language } = useLanguage();
     const { addToCart, cart } = useCart();
 
@@ -103,9 +105,9 @@ export default function Gallery() {
                 <div className="flex items-center gap-3 justify-center text-center">
                     <span className="text-xl text-yellow-500 font-black">!</span>
                     <p className="text-[10px] md:text-xs text-white/70 font-bold">
-                        {language === 'es' 
-                            ? 'Contenido explícito para mayores de 18 años. Distribución no autorizada prohibida. © karlaspice.fun'
-                            : 'Explicit content for ages 18+. Unauthorized distribution prohibited. © karlaspice.fun'
+                        {language === 'es'
+                            ? `Contenido explícito para mayores de 18 años. Distribución no autorizada prohibida. © ${name}.fun`
+                            : `Explicit content for ages 18+. Unauthorized distribution prohibited. © ${name}.fun`
                         }
                     </p>
                 </div>
@@ -167,7 +169,7 @@ export default function Gallery() {
                             <div className="absolute bottom-0 left-0 right-0 p-6 pt-12 bg-gradient-to-t from-black via-black/40 to-transparent flex justify-between items-end z-40">
                                 <div className="space-y-0.5">
                                     <h3 className="text-2xl font-black uppercase italic tracking-tighter neon-text-pink">{selectedImage.alt}</h3>
-                                    <p className="text-[8px] font-bold text-white/40 uppercase tracking-[0.3em]">© Karla Spice Fun - No Redistribution</p>
+                                    <p className="text-[8px] font-bold text-white/40 uppercase tracking-[0.3em]">© {name} Fun - No Redistribution</p>
                                 </div>
                                 <button
                                     onClick={() => addToCart({

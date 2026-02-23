@@ -12,9 +12,11 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
+import { siteConfig } from "@/config/site";
+
 export const metadata: Metadata = {
-  title: "Karla Spice Fun | Official Site",
-  description: "Explora la galería exclusiva de Karla Spice, su tienda de lencería y mucho más.",
+  title: `${siteConfig.name} | ${siteConfig.tagline}`,
+  description: siteConfig.description,
   robots: "noindex, nofollow",
 };
 

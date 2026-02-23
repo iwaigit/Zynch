@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import ContactForm from '@/components/ContactForm';
 import LinkTree from '@/components/LinkTree';
 import Shop from '@/components/Shop';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function Home() {
+  const { name, colors } = useSiteConfig();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start gap-1.5 text-center md:text-left">
-            <p className="font-black text-[8px] uppercase tracking-[0.4em] text-white/20">© 2024 Karla Spice Fun SYSTEM_CORE_V2</p>
+            <p className="font-black text-[8px] uppercase tracking-[0.4em] text-white/20">© {new Date().getFullYear()} {name} SYSTEM_CORE</p>
             <div className="h-0.5 w-12 bg-[var(--color-neon-pink)] opacity-40" />
           </div>
           <div className="flex gap-8 font-bold uppercase text-[9px] tracking-[0.3em] text-white/30">

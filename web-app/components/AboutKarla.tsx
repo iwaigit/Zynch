@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function AboutKarla() {
+    const { name, bio } = useSiteConfig();
     const { t } = useLanguage();
 
     const stats = [
@@ -30,7 +32,7 @@ export default function AboutKarla() {
                         <div className="aspect-video bg-[#1a1a25] relative overflow-hidden rounded-lg">
                             <img
                                 src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1000&auto=format&fit=crop"
-                                alt="Karla Spice Profile"
+                                alt={`${name} Profile`}
                                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
                             />
                             {/* Cyber UI Overlays */}
@@ -43,7 +45,7 @@ export default function AboutKarla() {
 
                     {/* Floating Tag */}
                     <div className="absolute -bottom-4 -right-4 glass-card px-6 py-3 border-[var(--color-neon-pink)] shadow-[0_0_20px_rgba(255,45,117,0.2)] rotate-2 hidden md:block">
-                        <p className="text-xl font-black uppercase italic tracking-tighter neon-text-pink leading-none">KARLA SPICE</p>
+                        <p className="text-xl font-black uppercase italic tracking-tighter neon-text-pink leading-none">{name}</p>
                     </div>
                 </div>
 
@@ -57,7 +59,7 @@ export default function AboutKarla() {
                     </div>
 
                     <p className="text-sm font-bold text-white/50 leading-relaxed max-w-md">
-                        {t('profile.bio')}
+                        {bio}
                     </p>
 
                     {/* Stats Bars */}

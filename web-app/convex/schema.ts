@@ -25,20 +25,20 @@ export default defineSchema({
         notes: v.optional(v.string()),
         createdAt: v.number(),
     }).index("by_date", ["date"])
-      .index("by_user", ["userId"]),
+        .index("by_user", ["userId"]),
 
     // Tienda y Pedidos
-  products: defineTable({
-    name: v.string(),
-    description: v.string(),
-    priceUSD: v.number(),
-    stock: v.optional(v.number()),
-    category: v.string(),
-    imageUrl: v.optional(v.string()),
-    image: v.optional(v.string()),
-    active: v.optional(v.boolean()),
-    createdAt: v.optional(v.number()),
-}),
+    products: defineTable({
+        name: v.string(),
+        description: v.string(),
+        priceUSD: v.number(),
+        stock: v.optional(v.number()),
+        category: v.string(),
+        imageUrl: v.optional(v.string()),
+        image: v.optional(v.string()),
+        active: v.optional(v.boolean()),
+        createdAt: v.optional(v.number()),
+    }),
 
     orders: defineTable({
         userId: v.id("users"),
@@ -80,4 +80,23 @@ export default defineSchema({
         order: v.number(),
         createdAt: v.number(),
     }).index("by_order", ["order"]),
+
+    // Configuración Global del Sitio
+    siteConfig: defineTable({
+        performerName: v.string(),
+        tagline: v.string(),
+        logoUrl: v.optional(v.string()),
+        primaryColor: v.string(),
+        secondaryColor: v.string(),
+        socialLinks: v.object({
+            instagram: v.optional(v.string()),
+            twitter: v.optional(v.string()),
+            onlyfans: v.optional(v.string()),
+            tiktok: v.optional(v.string()),
+        }),
+        contactEmail: v.string(),
+        bio: v.string(),
+        metaDescription: v.string(),
+        updatedAt: v.number(),
+    }),
 });

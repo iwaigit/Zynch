@@ -15,6 +15,7 @@ import type * as gallery from "../gallery.js";
 import type * as orders from "../orders.js";
 import type * as permissions from "../permissions.js";
 import type * as products from "../products.js";
+import type * as siteConfig from "../siteConfig.js";
 import type * as users from "../users.js";
 
 import type {
@@ -31,6 +32,7 @@ declare const fullApi: ApiFromModules<{
   orders: typeof orders;
   permissions: typeof permissions;
   products: typeof products;
+  siteConfig: typeof siteConfig;
   users: typeof users;
 }>;
 

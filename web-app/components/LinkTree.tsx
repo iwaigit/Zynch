@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import RegisterForm, { FormMode } from '@/components/RegisterForm';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function LinkTree() {
+    const { name, logo, links, email } = useSiteConfig();
     const { language, setLanguage, t } = useLanguage();
     const [showMenu, setShowMenu] = useState(false);
     const [showAuth, setShowAuth] = useState(false);
@@ -47,8 +49,8 @@ export default function LinkTree() {
                     className="relative block glass-card p-4 rotate-[-1deg] group-hover:rotate-0 transition-transform duration-500 cursor-pointer"
                 >
                     <Image
-                        src="/logo.png"
-                        alt="Karla Spice Fun Logo"
+                        src={logo || "/logo.png"}
+                        alt={`${name} Logo`}
                         width={120}
                         height={120}
                         className="object-contain brightness-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
@@ -121,7 +123,7 @@ export default function LinkTree() {
             {/* Contact Link */}
             <div className="text-center pt-4">
                 <p className="font-bold text-[9px] tracking-[0.4em] uppercase text-[var(--color-neon-cyan)] animate-pulse">
-                    contacto@karlaspice.fun
+                    {email}
                 </p>
             </div>
         </div>
