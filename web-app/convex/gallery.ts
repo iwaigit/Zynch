@@ -13,12 +13,14 @@ export const generateUploadUrl = mutation(async (ctx) => {
  */
 export const savePhoto = mutation({
     args: {
+        tenantId: v.id("tenants"),
         storageId: v.id("_storage"),
         alt: v.string(),
         order: v.number(),
     },
     handler: async (ctx, args) => {
         const photoId = await ctx.db.insert("gallery", {
+            tenantId: args.tenantId,
             storageId: args.storageId,
             alt: args.alt,
             order: args.order,
@@ -32,10 +34,18 @@ export const savePhoto = mutation({
  * Lista todas las fotos de la galería con sus URLs públicas temporales.
  */
 export const listPhotos = query({
-    handler: async (ctx) => {
+    args: { tenantId: v.optional(v.id("tenants")) },
+    handler: async (ctx, args) => {
+        let tenantId = args.tenantId;
+        if (!tenantId) {
+            const firstTenant = await ctx.db.query("tenants").first();
+            if (!firstTenant) return [];
+            tenantId = firstTenant._id;
+        }
+
         const photos = await ctx.db
             .query("gallery")
-            .withIndex("by_order")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", tenantId!))
             .collect();
 
         return Promise.all(
@@ -51,10 +61,12 @@ export const listPhotos = query({
  * Elimina una foto de la galería y su archivo asociado en el storage.
  */
 export const deletePhoto = mutation({
-    args: { id: v.id("gallery") },
+    args: { id: v.id("gallery"), tenantId: v.id("tenants") },
     handler: async (ctx, args) => {
         const photo = await ctx.db.get(args.id);
-        if (!photo) return;
+        if (!photo || photo.tenantId !== args.tenantId) {
+            throw new Error("Unauthorized: Photo not found or doesn't belong to this tenant.");
+        }
 
         // Eliminar del storage
         await ctx.storage.delete(photo.storageId);
@@ -69,9 +81,14 @@ export const deletePhoto = mutation({
 export const updateOrder = mutation({
     args: {
         id: v.id("gallery"),
+        tenantId: v.id("tenants"),
         order: v.number(),
     },
     handler: async (ctx, args) => {
+        const photo = await ctx.db.get(args.id);
+        if (!photo || photo.tenantId !== args.tenantId) {
+            throw new Error("Unauthorized: Photo not found or doesn't belong to this tenant.");
+        }
         await ctx.db.patch(args.id, { order: args.order });
     },
 });

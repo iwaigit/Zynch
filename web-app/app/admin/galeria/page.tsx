@@ -9,8 +9,8 @@ import { useSiteConfig } from '@/hooks/useSiteConfig';
 import { imageSchema } from '@/lib/validators';
 
 export default function GaleriaAdmin() {
-    const { name, initials } = useSiteConfig();
-    const photos = useQuery(api.gallery.listPhotos);
+    const { tenantId, name, initials } = useSiteConfig();
+    const photos = useQuery(api.gallery.listPhotos, { tenantId });
     const generateUploadUrl = useMutation(api.gallery.generateUploadUrl);
     const savePhoto = useMutation(api.gallery.savePhoto);
     const deletePhoto = useMutation(api.gallery.deletePhoto);
@@ -21,7 +21,7 @@ export default function GaleriaAdmin() {
 
     const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (!file) return;
+        if (!file || !tenantId) return;
 
         // 1. Zod Validation
         const validation = imageSchema.safeParse({ size: file.size, type: file.type });
@@ -53,6 +53,7 @@ export default function GaleriaAdmin() {
             const { storageId } = await result.json();
 
             await savePhoto({
+                tenantId,
                 storageId: storageId as Id<"_storage">,
                 alt: sequentialName,
                 order: nextOrder,
@@ -69,7 +70,8 @@ export default function GaleriaAdmin() {
 
     const handleDelete = async (id: Id<"gallery">) => {
         if (confirm('¿Estás seguro de eliminar esta foto?')) {
-            await deletePhoto({ id });
+            if (!tenantId) return;
+            await deletePhoto({ id, tenantId });
         }
     };
 

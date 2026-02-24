@@ -1,10 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
+import { useAuth } from '@/context/AuthContext';
 
 export default function AppointmentSystem() {
     const { t, language } = useLanguage();
+    const { tenantId } = useSiteConfig();
+    const { user } = useAuth();
+    const createAppointment = useMutation(api.appointments.create);
+
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedTime, setSelectedTime] = useState('20:00');
     const [selectedDuration, setSelectedDuration] = useState('1h');
@@ -25,15 +33,27 @@ export default function AppointmentSystem() {
     const handleBooking = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedDate || !selectedTime) return;
+        if (!tenantId || !user) {
+            alert(language === 'es' ? 'Debes iniciar sesión para agendar.' : 'You must log in to book.');
+            return;
+        }
 
         setStatus('loading');
 
-        // Simulación de guardado en Convex
-        console.log('Agendando cita en Convex...', { selectedDate, selectedTime, selectedDuration, notes });
-
-        setTimeout(() => {
+        try {
+            await createAppointment({
+                tenantId,
+                userId: user.id as any,
+                date: selectedDate,
+                time: selectedTime,
+                notes: notes,
+            });
             setStatus('success');
-        }, 2000);
+        } catch (err: any) {
+            console.error(err);
+            alert(err.message || 'Error al agendar');
+            setStatus('error');
+        }
     };
 
     if (status === 'success') {

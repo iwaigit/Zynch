@@ -24,28 +24,29 @@ export const generateProfileImageUploadUrl = mutation(async (ctx) => {
 
 /**
  * Guarda el storageId de una foto de perfil en la posición indicada (0 o 1).
- * Elimina la imagen anterior si existía en storage.
  */
 export const saveProfileImage = mutation({
     args: {
+        tenantId: v.id("tenants"),
         storageId: v.id("_storage"),
         index: v.number(), // 0 = primera, 1 = segunda
     },
     handler: async (ctx, args) => {
-        const existing = await ctx.db.query("siteConfig").first();
-        if (!existing) throw new Error("siteConfig no existe. Inicializa primero.");
+        const existing = await ctx.db
+            .query("siteConfig")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
+            .first();
+        if (!existing) throw new Error("Configuración del inquilino no encontrada.");
 
         const currentIds: (Id<"_storage"> | null)[] = [
             ...(existing.profileImageIds || [null, null]),
         ];
 
-        // Eliminar imagen anterior de storage si existe
         const oldId = currentIds[args.index];
         if (oldId) {
-            try { await ctx.storage.delete(oldId); } catch { /* ignorar si ya fue eliminada */ }
+            try { await ctx.storage.delete(oldId); } catch { /* ignorar */ }
         }
 
-        // Insertar nueva ID en la posición correcta
         while (currentIds.length <= args.index) currentIds.push(null);
         currentIds[args.index] = args.storageId;
 
@@ -57,12 +58,18 @@ export const saveProfileImage = mutation({
 });
 
 /**
- * Elimina una foto de perfil del storage y limpia su ID del siteConfig.
+ * Elimina una foto de perfil del storage.
  */
 export const deleteProfileImage = mutation({
-    args: { index: v.number() },
+    args: {
+        tenantId: v.id("tenants"),
+        index: v.number()
+    },
     handler: async (ctx, args) => {
-        const existing = await ctx.db.query("siteConfig").first();
+        const existing = await ctx.db
+            .query("siteConfig")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
+            .first();
         if (!existing) return;
 
         const currentIds = [...(existing.profileImageIds || [])];
@@ -79,22 +86,34 @@ export const deleteProfileImage = mutation({
 });
 
 /**
- * Obtiene la configuración actual del sitio.
- * Resuelve los storageIds de fotos de perfil a URLs públicas.
+ * Obtiene la configuración actual del sitio por slug o fallback.
  */
 export const get = query({
-    args: {},
-    handler: async (ctx) => {
-        const config = await ctx.db.query("siteConfig").first();
+    args: { slug: v.optional(v.string()) },
+    handler: async (ctx, args) => {
+        let tenant;
+        if (args.slug) {
+            tenant = await ctx.db
+                .query("tenants")
+                .withIndex("by_slug", (q) => q.eq("slug", args.slug!))
+                .first();
+        } else {
+            tenant = await ctx.db.query("tenants").first();
+        }
+
+        if (!tenant) return null;
+
+        const config = await ctx.db
+            .query("siteConfig")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", tenant!._id))
+            .first();
         if (!config) return null;
 
-        // Resolver IDs de storage a URLs públicas
         let resolvedProfileImages = [...(config.profileImages || [])];
         if (config.profileImageIds && config.profileImageIds.length > 0) {
             const storageUrls = await Promise.all(
                 config.profileImageIds.map(id => ctx.storage.getUrl(id))
             );
-            // Las fotos de storage tienen prioridad sobre las URLs externas
             resolvedProfileImages = storageUrls.filter((url): url is string => url !== null);
         }
 
@@ -106,10 +125,11 @@ export const get = query({
 });
 
 /**
- * Actualiza la configuración del sitio o la crea si no existe.
+ * Actualiza la configuración del sitio.
  */
 export const update = mutation({
     args: {
+        tenantId: v.id("tenants"),
         performerName: v.string(),
         tagline: v.string(),
         profileImages: v.array(v.string()),
@@ -125,17 +145,11 @@ export const update = mutation({
         contactEmail: v.string(),
         bio: v.string(),
         metaDescription: v.string(),
-
-        // Físico
         height: v.optional(v.string()),
         eyeColor: v.optional(v.string()),
         locations: v.optional(v.array(v.string())),
         weight: v.optional(v.string()),
-
-        // Stats dinámicas
         stats: v.optional(v.array(statSchema)),
-
-        // Servicio
         schedule: v.optional(v.object({
             is24h: v.boolean(),
             from: v.optional(v.string()),
@@ -162,9 +176,13 @@ export const update = mutation({
         personalMessage: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
-        const existing = await ctx.db.query("siteConfig").first();
+        const existing = await ctx.db
+            .query("siteConfig")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
+            .first();
+        const { tenantId, ...rest } = args;
         if (existing) {
-            await ctx.db.patch(existing._id, { ...args, updatedAt: Date.now() });
+            await ctx.db.patch(existing._id, { ...rest, updatedAt: Date.now() });
             return existing._id;
         } else {
             return await ctx.db.insert("siteConfig", { ...args, updatedAt: Date.now() });
@@ -173,28 +191,49 @@ export const update = mutation({
 });
 
 /**
- * Inicializa con valores por defecto si no existe. (Seed)
+ * Inicializa un inquilino con valores por defecto.
  */
 export const initialize = mutation({
-    args: {},
-    handler: async (ctx) => {
-        const existing = await ctx.db.query("siteConfig").first();
+    args: { name: v.string(), slug: v.string() },
+    handler: async (ctx, args) => {
+        let tenant = await ctx.db
+            .query("tenants")
+            .withIndex("by_slug", (q) => q.eq("slug", args.slug))
+            .first();
+
+        if (!tenant) {
+            const tenantId = await ctx.db.insert("tenants", {
+                name: args.name,
+                slug: args.slug,
+                createdAt: Date.now(),
+            });
+            tenant = await ctx.db.get(tenantId);
+        }
+
+        const existing = await ctx.db
+            .query("siteConfig")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", tenant!._id))
+            .first();
+
         if (existing) return existing._id;
-        return await ctx.db.insert("siteConfig", getDefaults());
+
+        return await ctx.db.insert("siteConfig", {
+            ...getDefaults(tenant!._id),
+            tenantId: tenant!._id,
+            performerName: tenant!.name,
+        });
     },
 });
 
-/**
- * Resetea todo a los valores de marca blanca.
- * TAMBIÉN elimina las fotos de perfil del storage.
- */
 export const resetToDefaults = mutation({
-    args: {},
-    handler: async (ctx) => {
-        const existing = await ctx.db.query("siteConfig").first();
-        const defaults = { ...getDefaults(), profileImageIds: undefined };
+    args: { tenantId: v.id("tenants") },
+    handler: async (ctx, args) => {
+        const existing = await ctx.db
+            .query("siteConfig")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
+            .first();
+        const defaults = { ...getDefaults(args.tenantId), profileImageIds: undefined };
 
-        // Eliminar fotos de storage si existían
         if (existing?.profileImageIds) {
             await Promise.all(
                 existing.profileImageIds.map(id =>
@@ -207,13 +246,14 @@ export const resetToDefaults = mutation({
             await ctx.db.patch(existing._id, defaults);
             return existing._id;
         } else {
-            return await ctx.db.insert("siteConfig", defaults);
+            return await ctx.db.insert("siteConfig", { ...defaults, tenantId: args.tenantId });
         }
     },
 });
 
-function getDefaults() {
+function getDefaults(tenantId: Id<"tenants">) {
     return {
+        tenantId,
         performerName: "Performer Name",
         tagline: "Official Site",
         profileImages: [

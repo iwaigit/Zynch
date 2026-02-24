@@ -16,7 +16,7 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ initialMode = 'register', onClose }: RegisterFormProps) {
-    const { name, initials } = useSiteConfig();
+    const { name, initials, tenantId } = useSiteConfig();
     const { login: authLogin } = useAuth();
     const registerMutation = useMutation(api.users.register);
     const loginMutation = useMutation(api.users.login);
@@ -56,6 +56,7 @@ export default function RegisterForm({ initialMode = 'register', onClose }: Regi
                 const validatedData = validation.data;
 
                 const userId = await registerMutation({
+                    tenantId: tenantId!,
                     email: validatedData.email,
                     password: validatedData.password,
                     birthdate: validatedData.birthdate,
@@ -71,6 +72,7 @@ export default function RegisterForm({ initialMode = 'register', onClose }: Regi
             } else {
                 // Login
                 const userData = await loginMutation({
+                    tenantId,
                     email: formData.email,
                     password: formData.password
                 });

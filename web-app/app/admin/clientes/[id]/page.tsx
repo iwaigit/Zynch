@@ -6,10 +6,15 @@ import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
 
+import { useSiteConfig } from "@/hooks/useSiteConfig";
+
 export default function FichaClienteAdmin() {
+    const { tenantId } = useSiteConfig();
     const params = useParams();
     const userId = params.id as string;
-    const clientData = useQuery(api.crm.getClientDetails, { userId: userId as any });
+    const clientData = useQuery(api.crm.getClientDetails,
+        tenantId ? { tenantId, userId: userId as Id<"users"> } : "skip"
+    );
     const updateUserRole = useMutation(api.crm.updateUserRole);
 
     const [role, setRole] = useState("");
@@ -24,8 +29,9 @@ export default function FichaClienteAdmin() {
     }, [clientData]);
 
     const handleSaveRole = async () => {
-        if (!clientData) return;
+        if (!clientData || !tenantId) return;
         await updateUserRole({
+            tenantId,
             userId: clientData.user._id as Id<"users">,
             role,
             permissions

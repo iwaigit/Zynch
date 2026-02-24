@@ -44,11 +44,11 @@ const PACKS = [
 ];
 
 export default function Gallery() {
-    const { name } = useSiteConfig();
+    const { name, tenantId } = useSiteConfig();
     const { t, language } = useLanguage();
     const { addToCart, cart } = useCart();
 
-    const photos = useQuery(api.gallery.listPhotos);
+    const photos = useQuery(api.gallery.listPhotos, { tenantId });
     const [selectedImage, setSelectedImage] = useState<any | null>(null);
 
     const handleContextMenu = (e: React.MouseEvent) => {

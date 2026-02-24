@@ -1,21 +1,25 @@
-# Índice de Documentación
+# Zynch by iwai — Global Documentation Index 🦎
 
-Bienvenido al centro de documentación de **Zynch by iwai**. Este directorio contiene todas las especificaciones técnicas y funcionales del sistema camaleónico SAAS para servicios personales.
+Welcome to the **Zynch SaaS** ecosystem. This portal separates the core product intelligence from individual client (tenant) implementations.
 
-## Estructura del Directorio
+## 🏗️ SaaS Core (Engine)
+*Documentation regarding the "Camaleonic" architecture and product roadmap.*
 
-*   **[Requerimientos Funcionales](ZN.fun.txt):** Desglose detallado de las características principales y la lógica de la aplicación.
-*   **[Especificaciones de Formularios](ZN_formulario.txt):** Definiciones para formularios de recolección de datos y reglas de validación.
-*   **[Manual de Galería](manual_galeria.md):** Guía de uso para el panel de administración de la galería.
-*   **[Referencias de Diseño]([EJEMPLOS]%20Paginas%20web%20de%20citas.md):** Inspiración y guías de UI/UX basadas en plataformas similares.
+*   **[Product Roadmap & Phases](./saas/roadmap/PLAN_GENERAL.md):** The evolution of Zynch from KSFun to a global SaaS.
+*   **[SaaS Architecture](./saas/Zynch_SaaS.md):** How the multi-tenant system works.
 
-## Sincronización con GitBook
+## 👥 Tenants (Clients)
+*Individual client implementations and specific requirements.*
 
-Esta carpeta está configurada para sincronizarse con GitBook. Cualquier archivo markdown (`.md`) o de texto (`.txt`) añadido aquí estará automáticamente disponible en nuestra documentación alojada.
+### 01. Karla Spice (Tenant Alpha)
+*   **[Functional Requirements](./tenants/karla-spice/ZN.fun.txt):** Specific logic for the Karla Spice implementation.
+*   **[Form Specifications](./tenants/karla-spice/ZN_formulario.txt):** Data collection rules for this tenant.
+*   **[User Manual: Gallery](./tenants/karla-spice/manual_galeria.md):** Admin guide for the gallery module.
 
-### Cómo agregar documentación
+---
+## 🚀 AI Orchestration
+This project is being optimized by a hybrid team of **Antigravity** and **CrewAI** agents.
+*   [AI Orchestrator Logic](./ai-orchestrator/README.md) *(Coming Soon)*
 
-1.  Crea un nuevo archivo en este directorio `.docs`.
-2.  Usa formato Markdown estándar.
-3.  Enlázalo aquí en `intro.md` si es un documento de nivel superior.
-4.   confirma (commit) y envía (push) los cambios a GitHub.
+---
+© 2026 **IWAI - Automated Processes** | [www.iwai.work](https://www.iwai.work)

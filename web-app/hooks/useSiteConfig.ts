@@ -11,13 +11,12 @@ const DEFAULT_STATS = [
 
 /**
  * Hook para obtener la configuración del sitio desde Convex.
- * Si los datos aún no cargan, retorna los valores por defecto.
  */
-export function useSiteConfig() {
-    const dynamicConfig = useQuery(api.siteConfig.get);
+export function useSiteConfig(slug?: string) {
+    const dynamicConfig = useQuery(api.siteConfig.get, { slug });
 
     const name = dynamicConfig?.performerName || staticConfig.name;
-    const initials = name
+    const initials = dynamicConfig?.initials || name
         .split(" ")
         .map((n) => n[0])
         .join("")
@@ -43,6 +42,7 @@ export function useSiteConfig() {
             activePromo: { label: "", description: "", isActive: false },
             personalMessage: "",
             backgroundColor: "#0d0d12",
+            tenantId: undefined,
             isLoading: dynamicConfig === undefined,
         };
     }
@@ -84,6 +84,7 @@ export function useSiteConfig() {
         targetAudience: dynamicConfig.targetAudience || ["Hombres"],
         activePromo: dynamicConfig.activePromo || { label: "", description: "", isActive: false },
         personalMessage: dynamicConfig.personalMessage || "",
+        tenantId: dynamicConfig.tenantId,
         isLoading: false,
     };
 }

@@ -2,22 +2,34 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-    // Usuarios con registro ZN+5números
+    // --- Núcleo del SaaS: Inquilinos (Tenants) ---
+    tenants: defineTable({
+        name: v.string(),
+        slug: v.string(), // Identificador único para la URL (ej: "karla-spice")
+        ownerId: v.optional(v.id("users")),
+        createdAt: v.number(),
+    }).index("by_slug", ["slug"]),
+
+    // Usuarios: Ahora vinculados a un inquilino
     users: defineTable({
+        tenantId: v.optional(v.id("tenants")), // Opcional para admins globales, requerido para otros
         email: v.string(),
-        password: v.string(), // Formato: ZNXXXXX
+        password: v.string(), // Formato: [INITIALS]XXXXX
         birthdate: v.string(),
         isVerified: v.boolean(),
-        phone: v.optional(v.string()), // Formato internacional +XXXXX
+        phone: v.optional(v.string()),
         whatsappVerified: v.optional(v.boolean()),
-        role: v.string(), // 'admin' (developer) | 'promoter' (business owner/performer) | 'vip' (premium client) | 'client' (standard)
-        permissions: v.optional(v.array(v.string())), // e.g., ['view_logs', 'manage_calendar', 'grant_roles']
+        role: v.string(), // 'admin', 'promoter', 'vip', 'client'
+        permissions: v.optional(v.array(v.string())),
         createdAt: v.number(),
     }).index("by_email", ["email"])
+        .index("by_tenant", ["tenantId"])
+        .index("by_tenant_role", ["tenantId", "role"])
         .index("by_phone", ["phone"]),
 
     // Sistema de Citas Profesional
     appointments: defineTable({
+        tenantId: v.id("tenants"),
         userId: v.id("users"),
         date: v.string(),
         time: v.string(),
@@ -25,10 +37,14 @@ export default defineSchema({
         notes: v.optional(v.string()),
         createdAt: v.number(),
     }).index("by_date", ["date"])
-        .index("by_user", ["userId"]),
+        .index("by_tenant_user", ["tenantId", "userId"])
+        .index("by_tenant_date", ["tenantId", "date"])
+        .index("by_tenant_status", ["tenantId", "status"])
+        .index("by_tenant", ["tenantId"]),
 
     // Tienda y Pedidos
     products: defineTable({
+        tenantId: v.id("tenants"),
         name: v.string(),
         description: v.string(),
         priceUSD: v.number(),
@@ -38,9 +54,10 @@ export default defineSchema({
         image: v.optional(v.string()),
         active: v.optional(v.boolean()),
         createdAt: v.optional(v.number()),
-    }),
+    }).index("by_tenant", ["tenantId"]),
 
     orders: defineTable({
+        tenantId: v.id("tenants"),
         userId: v.id("users"),
         items: v.array(v.object({
             id: v.string(),
@@ -51,46 +68,57 @@ export default defineSchema({
         totalUSD: v.number(),
         status: v.string(), // 'pending', 'paid', 'shipped', 'completed', 'cancelled'
         createdAt: v.number(),
-    }).index("by_user", ["userId"]),
+    }).index("by_user", ["userId"])
+        .index("by_tenant_status", ["tenantId", "status"])
+        .index("by_tenant", ["tenantId"]),
 
     // Control de Acceso Digital
     access: defineTable({
+        tenantId: v.id("tenants"),
         userId: v.id("users"),
         packId: v.string(),
         grantedAt: v.number(),
-    }).index("by_user_pack", ["userId", "packId"]),
+    }).index("by_user_pack", ["userId", "packId"])
+        .index("by_tenant", ["tenantId"]),
 
     // Logs de Actividad (CRM)
     activityLogs: defineTable({
+        tenantId: v.id("tenants"),
         userId: v.id("users"),
-        action: v.string(), // e.g., 'login', 'purchase', 'appointment_booked', 'view_pack'
+        action: v.string(),
         details: v.string(),
         timestamp: v.number(),
-    }).index("by_user", ["userId"]),
+    }).index("by_user", ["userId"])
+        .index("by_tenant", ["tenantId"]),
 
     settings: defineTable({
+        tenantId: v.id("tenants"),
         key: v.string(),
         value: v.any(),
-    }).index("by_key", ["key"]),
+    }).index("by_key", ["key"])
+        .index("by_tenant", ["tenantId"]),
 
-    // Galería de Fotos (Marketing) - Hasta 2 docenas de fotos
+    // Galería de Fotos (Marketing)
     gallery: defineTable({
+        tenantId: v.id("tenants"),
         storageId: v.id("_storage"),
         alt: v.string(),
         order: v.number(),
         createdAt: v.number(),
-    }).index("by_order", ["order"]),
+    }).index("by_order", ["order"])
+        .index("by_tenant", ["tenantId"]),
 
-    // Configuración Global del Sitio
+    // Configuración Específica del Inquilino (Perfil/Branding)
     siteConfig: defineTable({
+        tenantId: v.id("tenants"),
         performerName: v.string(),
-        initials: v.optional(v.string()), // Added this field to store initials, defaulting to "ZN" if not set
+        initials: v.optional(v.string()),
         tagline: v.string(),
-        profileImages: v.array(v.string()), // URLs externas (fallback/legacy)
-        profileImageIds: v.optional(v.array(v.id("_storage"))), // Convex Storage IDs
+        profileImages: v.array(v.string()),
+        profileImageIds: v.optional(v.array(v.id("_storage"))),
         primaryColor: v.string(),
         secondaryColor: v.string(),
-        backgroundColor: v.optional(v.string()), // Color de fondo del sitio
+        backgroundColor: v.optional(v.string()),
         socialLinks: v.object({
             instagram: v.optional(v.string()),
             twitter: v.optional(v.string()),
@@ -141,5 +169,5 @@ export default defineSchema({
         personalMessage: v.optional(v.string()),
 
         updatedAt: v.number(),
-    }),
+    }).index("by_tenant", ["tenantId"]),
 });

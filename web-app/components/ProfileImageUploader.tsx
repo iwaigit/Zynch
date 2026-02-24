@@ -12,6 +12,8 @@ interface ProfileImageUploaderProps {
     index: number;
     /** URL actual de la imagen (resuelta desde storage o URL externa) */
     currentUrl?: string;
+    /** ID del inquilino (Convex ID) */
+    tenantId?: Id<"tenants">;
     /** Nombre del performer para la watermark */
     performerName: string;
     /** Callback al terminar el upload exitosamente */
@@ -29,6 +31,7 @@ interface ProfileImageUploaderProps {
 export default function ProfileImageUploader({
     index,
     currentUrl,
+    tenantId,
     performerName,
     onUploaded,
 }: ProfileImageUploaderProps) {
@@ -82,7 +85,12 @@ export default function ProfileImageUploader({
 
             // 5. Guardar storageId en siteConfig
             setProgress('Guardando...');
-            await saveImage({ storageId: storageId as Id<'_storage'>, index });
+            if (!tenantId) throw new Error("ID de inquilino no disponible.");
+            await saveImage({
+                tenantId,
+                storageId: storageId as Id<'_storage'>,
+                index
+            });
 
             setProgress('');
             onUploaded?.();
@@ -100,7 +108,8 @@ export default function ProfileImageUploader({
         setIsUploading(true);
         setPreviewUrl(null);
         try {
-            await deleteImage({ index });
+            if (!tenantId) throw new Error("ID de inquilino no disponible.");
+            await deleteImage({ tenantId, index });
             onUploaded?.();
         } finally {
             setIsUploading(false);

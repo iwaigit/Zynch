@@ -1,23 +1,33 @@
 import { query } from "./_generated/server";
 import { v } from "convex/values";
 
-// List all activity logs (for promoter/admin)
+/**
+ * Listar todos los logs de un inquilino
+ */
 export const listAll = query({
-    handler: async (ctx) => {
+    args: { tenantId: v.id("tenants") },
+    handler: async (ctx, args) => {
         return await ctx.db
             .query("activityLogs")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
             .order("desc")
             .take(100);
     },
 });
 
-// List logs for specific user
+/**
+ * Listar logs de un usuario específico dentro de un inquilino 
+ */
 export const listByUser = query({
-    args: { userId: v.id("users") },
+    args: {
+        tenantId: v.id("tenants"),
+        userId: v.id("users")
+    },
     handler: async (ctx, args) => {
         return await ctx.db
             .query("activityLogs")
-            .withIndex("by_user", (q) => q.eq("userId", args.userId))
+            .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
+            .filter((q) => q.eq(q.field("userId"), args.userId))
             .order("desc")
             .take(50);
     },

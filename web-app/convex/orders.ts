@@ -1,8 +1,12 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
+/**
+ * Crear un pedido vinculado a un inquilino
+ */
 export const createOrder = mutation({
     args: {
+        tenantId: v.id("tenants"),
         userId: v.id("users"),
         items: v.array(v.object({
             id: v.string(),
@@ -14,6 +18,7 @@ export const createOrder = mutation({
     },
     handler: async (ctx, args) => {
         const orderId = await ctx.db.insert("orders", {
+            tenantId: args.tenantId,
             userId: args.userId,
             items: args.items,
             totalUSD: args.totalUSD,
@@ -21,33 +26,30 @@ export const createOrder = mutation({
             createdAt: Date.now(),
         });
 
-        // Log de Actividad
         await ctx.db.insert("activityLogs", {
+            tenantId: args.tenantId,
             userId: args.userId,
             action: "purchase_initiated",
-            details: `Pedido ${orderId.toString()} iniciado por $${args.totalUSD}`,
+            details: `Pedido ${orderId.toString()} iniciado`,
             timestamp: Date.now(),
         });
-
-        // Si hay packs, registrar acceso (esto debería ser tras el pago, pero lo dejamos preparado)
-        for (const item of args.items) {
-            if (item.type === 'pack') {
-                await ctx.db.insert("activityLogs", {
-                    userId: args.userId,
-                    action: "pack_purchase_intent",
-                    details: `Intento de compra de Pack: ${item.name}`,
-                    timestamp: Date.now(),
-                });
-            }
-        }
 
         return orderId;
     },
 });
 
+/**
+ * Listar todos los pedidos de un inquilino
+ */
 export const listAll = query({
-    handler: async (ctx) => {
-        const orders = await ctx.db.query("orders").order("desc").collect();
+    args: { tenantId: v.id("tenants") },
+    handler: async (ctx, args) => {
+        const orders = await ctx.db
+            .query("orders")
+            .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
+            .order("desc")
+            .collect();
+
         return Promise.all(orders.map(async (order) => {
             const user = await ctx.db.get(order.userId);
             return { ...order, userName: user?.email };
@@ -55,22 +57,28 @@ export const listAll = query({
     },
 });
 
+/**
+ * Actualizar estado del pedido y otorgar acceso
+ */
 export const updateStatus = mutation({
     args: {
         id: v.id("orders"),
-        status: v.string(),
+        tenantId: v.id("tenants"),
+        status: v.string(), // 'confirmed', 'rejected', 'completed'
     },
     handler: async (ctx, args) => {
         const order = await ctx.db.get(args.id);
-        if (!order) throw new Error("Order not found");
+        if (!order || order.tenantId !== args.tenantId) {
+            throw new Error("Unauthorized: Order not found or doesn't belong to this tenant.");
+        }
 
         await ctx.db.patch(args.id, { status: args.status });
 
-        // Si el estado es 'completed', otorgar acceso a los packs
         if (args.status === 'completed') {
             for (const item of order.items) {
                 if (item.type === 'pack') {
                     await ctx.db.insert("access", {
+                        tenantId: order.tenantId,
                         userId: order.userId,
                         packId: item.id,
                         grantedAt: Date.now(),
@@ -80,9 +88,10 @@ export const updateStatus = mutation({
         }
 
         await ctx.db.insert("activityLogs", {
+            tenantId: order.tenantId,
             userId: order.userId,
             action: `order_${args.status}`,
-            details: `Estado del pedido ${args.id} actualizado a ${args.status}`,
+            details: `Pedido ${args.id} actualizado a ${args.status}`,
             timestamp: Date.now(),
         });
     },
