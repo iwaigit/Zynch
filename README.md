@@ -1,6 +1,13 @@
 # Zynch by iwai 🦎
 
+![Versión](https://img.shields.io/badge/version-1.0.0--rc.1-blue?style=flat-square)
+![Estado](https://img.shields.io/badge/status-Latest-green?style=flat-square)
+
 **Zynch by iwai** es una plataforma SAAS profesional desarrollada por **IWAI - Automated Processes**. Este repositorio contiene el sistema completo "Camaleónico" diseñado para proveedores de servicios personales.
+
+> [!IMPORTANT]
+> **Estado Actual: v1.0.0-rc.1 (Latest)**
+> Se ha alcanzado la estabilidad en el núcleo del sistema con aislamiento multi-tenant estricto y auditoría de IA activa.
 
 ## Estructura del Proyecto
 
