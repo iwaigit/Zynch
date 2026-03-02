@@ -1,11 +1,18 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requireTenantAccess, requireStaff } from "./permissions";
 
 /**
  * Genera una URL de subida para el storage de Convex.
+ * Solo usuarios autenticados del tenant pueden subir.
  */
-export const generateUploadUrl = mutation(async (ctx) => {
-    return await ctx.storage.generateUploadUrl();
+export const generateUploadUrl = mutation({
+    args: { tenantId: v.id("tenants") },
+    handler: async (ctx, args) => {
+        // Verificar acceso al tenant
+        await requireTenantAccess(ctx, args.tenantId);
+        return await ctx.storage.generateUploadUrl();
+    },
 });
 
 /**
@@ -19,6 +26,9 @@ export const savePhoto = mutation({
         order: v.number(),
     },
     handler: async (ctx, args) => {
+        // Verificar que el usuario tenga acceso al tenant
+        await requireTenantAccess(ctx, args.tenantId);
+        
         const photoId = await ctx.db.insert("gallery", {
             tenantId: args.tenantId,
             storageId: args.storageId,
@@ -42,6 +52,10 @@ export const listPhotos = query({
             if (!firstTenant) return [];
             tenantId = firstTenant._id;
         }
+        
+        // Verificar acceso al tenant (clientes pueden ver, staff también)
+        // Nota: listPhotos es público para clientes del tenant, no requiere auth estricto
+        // pero podríamos agregar validación si es necesario
 
         const photos = await ctx.db
             .query("gallery")
@@ -63,6 +77,9 @@ export const listPhotos = query({
 export const deletePhoto = mutation({
     args: { id: v.id("gallery"), tenantId: v.id("tenants") },
     handler: async (ctx, args) => {
+        // Verificar que el usuario sea staff (admin o promoter) del tenant
+        await requireStaff(ctx, args.tenantId);
+        
         const photo = await ctx.db.get(args.id);
         if (!photo || photo.tenantId !== args.tenantId) {
             throw new Error("Unauthorized: Photo not found or doesn't belong to this tenant.");
@@ -85,6 +102,9 @@ export const updateOrder = mutation({
         order: v.number(),
     },
     handler: async (ctx, args) => {
+        // Verificar que el usuario sea staff del tenant
+        await requireStaff(ctx, args.tenantId);
+        
         const photo = await ctx.db.get(args.id);
         if (!photo || photo.tenantId !== args.tenantId) {
             throw new Error("Unauthorized: Photo not found or doesn't belong to this tenant.");
