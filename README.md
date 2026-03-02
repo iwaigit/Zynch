@@ -10,7 +10,7 @@
 
 ## Identity: Zynch by iwai
 
-Zynch is designed to be a "white label" solution. While it started as a custom implementation for Karla Spice, it has evolved into a multi-user platform where each "Promoter" or "Performer" can have their own:
+Zynch is designed to be a "white label" solution. While it started as a custom implementation for Tenant Alpha, it has evolved into a multi-user platform where each "Promoter" or "Performer" can have their own:
 - Custom branding and color palettes.
 - Personalized statistics and services.
 - Automated appointment management.

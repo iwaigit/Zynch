@@ -11,7 +11,7 @@ Welcome to the **Zynch SaaS** ecosystem. This portal separates the core product 
 ## 👥 Tenants (Clients)
 *Individual client implementations and specific requirements.*
 
-### 01. Karla Spice (Tenant Alpha)
+### 01. Tenant Alpha (First Client)
 *   **[Functional Requirements](./tenants/karla-spice/ZN.fun.txt):** Specific logic for the Karla Spice implementation.
 *   **[Form Specifications](./tenants/karla-spice/ZN_formulario.txt):** Data collection rules for this tenant.
 *   **[User Manual: Gallery](./tenants/karla-spice/manual_galeria.md):** Admin guide for the gallery module.

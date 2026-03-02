@@ -26,7 +26,7 @@ Crear un sistema de configuración centralizada que permita cambiar:
 ```typescript
 // Schema propuesto
 {
-  performerName: string,      // "Zynch User" | "Melissa Bennet"
+  performerName: string,      // "Tenant Name" | "Performer Name"
   tagline: string,            // "Premium Personal Service Platform"
   primaryColor: string,       // "#ff2d75"
   secondaryColor: string,     // "#00f3ff"
@@ -58,7 +58,7 @@ Configuración centralizada con valores por defecto + override desde Convex.
 export const siteConfig = {
   // Valores por defecto (fallback)
   default: {
-    name: "Karla Spice",
+    name: "Tenant Alpha",
     tagline: "Official Site",
     // ...
   },
@@ -76,12 +76,12 @@ export const siteConfig = {
 - `app/page.tsx` - Contenido principal
 - `components/AboutKarla.tsx` - Nombre, bio
 - `components/LinkTree.tsx` - Redes sociales
-- Todo lugar donde diga "Karla Spice"
+- Todo lugar donde diga "Tenant Name"
 
 **Patrón:**
 ```typescript
 // ANTES:
-<h1>Karla Spice</h1>
+<h1>Tenant Name</h1>
 
 // DESPUÉS:
 <h1>{siteConfig.performerName}</h1>
@@ -127,7 +127,7 @@ Integrar con Tailwind usando CSS variables.
 
 ## 🧪 Testing
 
-1. Cambiar `performerName` a "Melissa Bennet"
+1. Cambiar `performerName` a "Tenant Beta"
 2. Verificar que todos los textos cambian
 3. Cambiar colores del tema
 4. Verificar que el diseño se actualiza
