@@ -1,24 +1,27 @@
 # Zynch by iwai 🦎
 
-**Zynch by iwai** is a professional SAAS platform developed by **IWAI - Automated Processes**. This repository contains the complete "Camaleonic" system designed for personal service providers.
+**Zynch by iwai** es una plataforma SAAS profesional desarrollada por **IWAI - Automated Processes**. Este repositorio contiene el sistema completo "Camaleónico" diseñado para proveedores de servicios personales.
 
-## Project Structure
+## Estructura del Proyecto
 
-- **[web-app/](./web-app/)**: The core application built with Next.js 15, Tailwind CSS, and Convex.
-- **[.docs/](./.docs/)**: Technical and functional documentation (Syncs with GitBook).
-- **[roadmap/](./.docs/roadmap/)**: Project status, phases, and historical changes.
+- **[web-app/](./web-app/)**: La aplicación principal construida con Next.js 16, Tailwind CSS y Convex.
+- **[ai-orchestrator/](./ai-orchestrator/)**: Sistema de agentes de IA para auditoría de seguridad y arquitectura.
+- **[.docs/](./.docs/)**: Documentación técnica y funcional (Sincronizada con GitBook).
+- **[.docs/references/](./.docs/references/)**: Archivos de referencia y benchmarks.
 
-## Identity: Zynch by iwai
+## Identidad: Zynch by iwai
 
-Zynch is designed to be a "white label" solution. While it started as a custom implementation for Tenant Alpha, it has evolved into a multi-user platform where each "Promoter" or "Performer" can have their own:
-- Custom branding and color palettes.
-- Personalized statistics and services.
-- Automated appointment management.
-- Secure, compressed, and watermarked gallery.
+Zynch está diseñado como una solución de marca blanca ("white label"). Aunque comenzó con implementaciones personalizadas, ha evolucionado hacia una plataforma multi-usuario donde cada "Promotor" o "Performer" puede gestionar su propia identidad de forma aislada:
 
-## Documentation (GitBook)
+- **Branding Personalizado**: Paletas de colores y estilos dinámicos por inquilino.
+- **Gestión de Citas**: Sistema automatizado de reservaciones y estados.
+- **Seguridad de Datos**: Aislamiento estricto de información entre diferentes inquilinos.
+- **Galería Multimedia**: Gestión de contenido seguro con procesamiento de imágenes.
+- **IA de Auditoría**: Agentes que supervisan la integridad y seguridad del código en tiempo real.
 
-For detailed guides, please refer to the [Documentation Index](./.docs/intro.md).
+## Documentación (GitBook)
+
+Para guías detalladas, por favor consulte el [Índice de Documentación](./.docs/intro.md).
 
 ---
 © 2026 **IWAI - Automated Processes** | [www.iwai.work](https://www.iwai.work)
