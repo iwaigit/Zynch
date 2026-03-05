@@ -67,7 +67,7 @@ export default function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
 
                 <div className="hidden lg:block mb-8">
                     <Link href="/">
-                        <img src="/logo.png" alt="Zynch Logo" className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity" />
+                        <img src="/zynch.png" alt="Zynch Logo" className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity" />
                     </Link>
                 </div>
                 <h1 className="hidden lg:block text-xs font-black uppercase italic tracking-tighter neon-text-cyan mb-4">
