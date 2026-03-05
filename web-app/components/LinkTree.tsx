@@ -42,7 +42,7 @@ export default function LinkTree() {
 
             {/* Logo Section with Context Menu */}
             <div className="relative group scale-90 md:scale-100 z-50">
-                <div className="absolute -inset-3 bg-gradient-to-r from-[#ff2d75] to-[#00f3ff] rounded-full blur-[30px] opacity-10 group-hover:opacity-30 transition-opacity duration-500" />
+                <div className="absolute -inset-3 bg-gradient-to-r from-[var(--color-neon-pink)] to-[var(--color-sky-blue)] rounded-full blur-[30px] opacity-10 group-hover:opacity-30 transition-opacity duration-500" />
 
                 <div
                     onClick={() => setShowMenu(!showMenu)}
@@ -58,7 +58,7 @@ export default function LinkTree() {
                         />
                     ) : (
                         <div className="w-[120px] h-[120px] rounded-full bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#ff2d75]/20 to-[#00f3ff]/20 opacity-50" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-neon-pink)]/20 to-[var(--color-sky-blue)]/20 opacity-50" />
                             <span className="text-5xl font-black uppercase italic tracking-tighter text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] z-10">
                                 {name.charAt(0)}
                             </span>
@@ -68,7 +68,7 @@ export default function LinkTree() {
 
                 {/* Context Menu */}
                 {showMenu && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-48 bg-[#0d0d12]/95 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)] animate-in fade-in slide-in-from-top-2 z-50">
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-48 bg-[var(--color-dark-bg)]/95 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)] animate-in fade-in slide-in-from-top-2 z-50">
                         <div className="p-1">
                             <button
                                 onClick={() => { setAuthMode('login'); setShowAuth(true); setShowMenu(false); }}

@@ -10,8 +10,8 @@ const statSchema = v.object({
 });
 
 const DEFAULT_STATS = [
-    { label: "Encanto", value: 95, color: "#ff2d75" },
-    { label: "Estilo", value: 98, color: "#00f3ff" },
+    { label: "Encanto", value: 95, color: "#be2e57" },
+    { label: "Estilo", value: 98, color: "#9ead5c" },
     { label: "Energía", value: 92, color: "#fff300" },
     { label: "Misterio", value: 88, color: "#bd00ff" },
 ];
@@ -41,7 +41,7 @@ export const saveProfileImage = mutation({
     handler: async (ctx, args) => {
         // Verificar que el usuario sea staff del tenant
         await requireStaff(ctx, args.tenantId);
-        
+
         const existing = await ctx.db
             .query("siteConfig")
             .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
@@ -215,6 +215,8 @@ export const initialize = mutation({
             const tenantId = await ctx.db.insert("tenants", {
                 name: args.name,
                 slug: args.slug,
+                planType: "free",
+                status: "active",
                 createdAt: Date.now(),
             });
             tenant = await ctx.db.get(tenantId);
@@ -270,9 +272,9 @@ function getDefaults(tenantId: Id<"tenants">) {
             "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1000&auto=format&fit=crop",
             "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1000&auto=format&fit=crop"
         ],
-        primaryColor: "#ff2d75",
-        secondaryColor: "#00f3ff",
-        backgroundColor: "#0d0d12",
+        primaryColor: "#be2e57",
+        secondaryColor: "#9ead5c",
+        backgroundColor: "#0f0f11",
         socialLinks: { instagram: "", twitter: "", onlyfans: "", tiktok: "" },
         contactEmail: "contact@domain.fun",
         bio: "Official digital platform. Exclusive content, personalized experiences, and direct connection.",

@@ -16,9 +16,9 @@ export const siteConfig = {
     },
     email: "contact@iwai.work",
     colors: {
-        primary: "#ff2d75",   // Neon Pink
-        secondary: "#00f3ff", // Neon Cyan
-        background: "#0a0a0a",
+        primary: "#be2e57",   // Zynch Pink/Red
+        secondary: "#9ead5c", // Zynch Green
+        background: "#312a30",
     }
 };
 

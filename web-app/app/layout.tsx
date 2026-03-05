@@ -26,17 +26,19 @@ import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import UniversalCart from "@/components/UniversalCart";
+import SubscriptionBanner from "@/components/SaaS/SubscriptionBanner";
+import PoweredByFooter from "@/components/SaaS/PoweredByFooter";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   // Obtener headers del middleware (tenant detection)
-  const headersList = headers();
+  const headersList = await headers();
   const tenantSlug = headersList.get('x-tenant-slug') || 'default';
   const tenantDetection = headersList.get('x-tenant-detection') || 'fallback';
-  
+
   return (
     <html lang="es">
       <head>
@@ -49,20 +51,10 @@ export default function RootLayout({
           <LanguageProvider>
             <AuthProvider>
               <CartProvider>
+                <SubscriptionBanner />
                 {children}
                 <UniversalCart />
-                <footer style={{
-                  textAlign: 'center',
-                  padding: '12px',
-                  fontSize: '11px',
-                  color: '#666',
-                  borderTop: '1px solid #1a1a1a',
-                }}>
-                  2026 Zynch by iwai — Powered by{' '}
-                  <a href="https://www.iwai.work" target="_blank" rel="noopener noreferrer" style={{ color: '#666', textDecoration: 'none', fontWeight: 'bold' }}>
-                    IWAI - Automated Processes
-                  </a>
-                </footer>
+                <PoweredByFooter />
               </CartProvider>
             </AuthProvider>
           </LanguageProvider>

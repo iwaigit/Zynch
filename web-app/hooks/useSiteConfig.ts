@@ -41,7 +41,7 @@ export function useSiteConfig(slug?: string) {
             targetAudience: ["Hombres"],
             activePromo: { label: "", description: "", isActive: false },
             personalMessage: "",
-            backgroundColor: "#0d0d12",
+            backgroundColor: "#312a30",
             tenantId: undefined,
             isLoading: dynamicConfig === undefined,
         };
@@ -64,9 +64,9 @@ export function useSiteConfig(slug?: string) {
         colors: {
             primary: dynamicConfig.primaryColor,
             secondary: dynamicConfig.secondaryColor,
-            background: dynamicConfig.backgroundColor || "#0d0d12",
+            background: dynamicConfig.backgroundColor || "#312a30",
         },
-        backgroundColor: dynamicConfig.backgroundColor || "#0d0d12",
+        backgroundColor: dynamicConfig.backgroundColor || "#312a30",
         // Físico
         height: dynamicConfig.height || "N/A",
         eyeColor: dynamicConfig.eyeColor || "N/A",

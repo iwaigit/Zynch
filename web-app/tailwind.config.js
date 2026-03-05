@@ -8,11 +8,16 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'ks-dark': '#0d0d12',
-                'ks-neon-pink': '#ff2d75',
-                'ks-neon-cyan': '#00f3ff',
-                'ks-neon-fuchsia': '#f472b6',
-                'ks-neon-yellow': '#fff300',
+                'zynch-dark': '#312a30',
+                'zynch-pink': '#be2e57',
+                'zynch-cyan': '#9ead5c',
+                'zynch-blue': '#9fd7fb',
+                'zynch-red': '#840824',
+                'zynch-muted': '#a2bfcc',
+                // Keep ks- for backward compatibility if needed, but updated
+                'ks-dark': '#312a30',
+                'ks-neon-pink': '#be2e57',
+                'ks-neon-cyan': '#9ead5c',
             },
         },
     },

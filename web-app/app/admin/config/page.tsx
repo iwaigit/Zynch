@@ -54,7 +54,7 @@ type FormData = {
 const EMPTY_FORM: FormData = {
     performerName: "", tagline: "", bio: "", metaDescription: "", contactEmail: "",
     profileImages: ["", ""],
-    primaryColor: "#ff2d75", secondaryColor: "#00f3ff", backgroundColor: "#0d0d12",
+    primaryColor: "#be2e57", secondaryColor: "#9fd7fb", backgroundColor: "#312a30",
     height: "1.68m", eyeColor: "Café", weight: "55kg",
     locations: ["Caracas"],
     stats: DEFAULT_STATS,
@@ -625,7 +625,7 @@ export default function AdminConfig() {
                 )}
 
                 {/* ── Save Button ─────────────────────────────────────── */}
-                <div className="sticky bottom-0 bg-[#0d0d12] border-t border-white/5 pt-4 pb-2">
+                <div className="sticky bottom-0 bg-[var(--color-dark-bg)] border-t border-white/5 pt-4 pb-2">
                     <button
                         type="submit"
                         disabled={saving}

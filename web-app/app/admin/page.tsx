@@ -6,12 +6,12 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 
 export default function AdminDashboard() {
-    const { name } = useSiteConfig();
+    const { name, tenantId } = useSiteConfig();
     const resetDefaults = useMutation(api.siteConfig.resetToDefaults);
 
     const handleReset = async () => {
-        if (confirm('¿Estás seguro de resetear la marca a "Performer Name"?')) {
-            await resetDefaults();
+        if (confirm('¿Estás seguro de resetear la marca a "Performer Name"?') && tenantId) {
+            await resetDefaults({ tenantId: tenantId as any });
             window.location.reload();
         }
     };
@@ -20,7 +20,12 @@ export default function AdminDashboard() {
             <header className="flex justify-between items-end">
                 <div className="space-y-1">
                     <h2 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight leading-none whitespace-nowrap">Main <span className="neon-text-cyan">Control</span></h2>
-                    <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.3em] font-mono tracking-widest">{name} Enterprise Global Gateway</p>
+                    <div className="flex items-center gap-4">
+                        <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.3em] font-mono tracking-widest">{name} Enterprise Global Gateway</p>
+                        <Link href="/admin/master" className="text-[9px] font-bold text-pink-500 hover:text-pink-400 uppercase tracking-widest border border-pink-500/20 px-2 py-0.5 rounded transition-colors">
+                            Master Admin Access
+                        </Link>
+                    </div>
                 </div>
                 <div className="flex items-center gap-4">
                     <button

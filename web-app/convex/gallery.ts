@@ -28,7 +28,28 @@ export const savePhoto = mutation({
     handler: async (ctx, args) => {
         // Verificar que el usuario tenga acceso al tenant
         await requireTenantAccess(ctx, args.tenantId);
-        
+
+        // --- Validación de Plan SaaS ---
+        const tenant = await ctx.db.get(args.tenantId);
+        if (!tenant) throw new Error("Tenant no encontrado.");
+
+        // 1. Verificar si el plan de prueba ha expirado
+        if (tenant.planType === "free" && tenant.trialEndsAt && Date.now() > tenant.trialEndsAt) {
+            throw new Error("Tu periodo de prueba de 15 días ha expirado. Por favor, actualiza a un plan Pro.");
+        }
+
+        // 2. Verificar límite de fotos para el plan Free
+        if (tenant.planType === "free") {
+            const photoCount = await ctx.db
+                .query("gallery")
+                .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
+                .collect();
+
+            if (photoCount.length >= 5) {
+                throw new Error("Límite alcanzado: El plan gratuito solo permite hasta 5 fotos. ¡Pásate a Pro para subir fotos ilimitadas!");
+            }
+        }
+
         const photoId = await ctx.db.insert("gallery", {
             tenantId: args.tenantId,
             storageId: args.storageId,
@@ -52,7 +73,7 @@ export const listPhotos = query({
             if (!firstTenant) return [];
             tenantId = firstTenant._id;
         }
-        
+
         // Verificar acceso al tenant (clientes pueden ver, staff también)
         // Nota: listPhotos es público para clientes del tenant, no requiere auth estricto
         // pero podríamos agregar validación si es necesario
@@ -79,7 +100,7 @@ export const deletePhoto = mutation({
     handler: async (ctx, args) => {
         // Verificar que el usuario sea staff (admin o promoter) del tenant
         await requireStaff(ctx, args.tenantId);
-        
+
         const photo = await ctx.db.get(args.id);
         if (!photo || photo.tenantId !== args.tenantId) {
             throw new Error("Unauthorized: Photo not found or doesn't belong to this tenant.");
@@ -104,7 +125,7 @@ export const updateOrder = mutation({
     handler: async (ctx, args) => {
         // Verificar que el usuario sea staff del tenant
         await requireStaff(ctx, args.tenantId);
-        
+
         const photo = await ctx.db.get(args.id);
         if (!photo || photo.tenantId !== args.tenantId) {
             throw new Error("Unauthorized: Photo not found or doesn't belong to this tenant.");

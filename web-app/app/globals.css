@@ -3,14 +3,16 @@
 @tailwind utilities;
 
 :root {
-  /* Cyber-Anime Premium Palette */
-  --color-dark-bg: #0d0d12;
-  --color-neon-pink: #ff2d75;
-  --color-neon-cyan: #00f3ff;
-  --color-neon-fuchsia: #f472b6;
-  --color-neon-yellow: #fff300;
+  /* Zynch Official Palette */
+  --color-dark-bg: #312a30;
+  --color-neon-pink: #be2e57;
+  --color-neon-cyan: #9ead5c;
+  --color-sky-blue: #9fd7fb;
+  --color-deep-red: #840824;
+  --color-muted-blue: #a2bfcc;
+  --bg-dark: #312a30;
 
-  --background: #0d0d12;
+  --background: #312a30;
   --foreground: #ffffff;
 
   --glass-bg: rgba(255, 255, 255, 0.03);
@@ -54,8 +56,17 @@ body {
 }
 
 @keyframes softBlink {
-  0%, 100% { opacity: 1; filter: brightness(1.2); }
-  50% { opacity: 0.6; filter: brightness(0.8); }
+
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+
+  50% {
+    opacity: 0.6;
+    filter: brightness(0.8);
+  }
 }
 
 .soft-blink {

@@ -1,5 +1,9 @@
 # Zynch by iwai 🦎
 
+<p align="center">
+  <img src="./.assets/logo.png" alt="Zynch Logo" width="300">
+</p>
+
 ![Versión](https://img.shields.io/badge/version-1.0.0--rc.1-blue?style=flat-square)
 ![Estado](https://img.shields.io/badge/status-Latest-green?style=flat-square)
 

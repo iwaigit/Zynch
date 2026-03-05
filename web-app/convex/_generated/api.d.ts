@@ -13,9 +13,11 @@ import type * as appointments from "../appointments.js";
 import type * as crm from "../crm.js";
 import type * as gallery from "../gallery.js";
 import type * as orders from "../orders.js";
+import type * as otp from "../otp.js";
 import type * as permissions from "../permissions.js";
 import type * as products from "../products.js";
 import type * as siteConfig from "../siteConfig.js";
+import type * as tenants from "../tenants.js";
 import type * as users from "../users.js";
 
 import type {
@@ -30,9 +32,11 @@ declare const fullApi: ApiFromModules<{
   crm: typeof crm;
   gallery: typeof gallery;
   orders: typeof orders;
+  otp: typeof otp;
   permissions: typeof permissions;
   products: typeof products;
   siteConfig: typeof siteConfig;
+  tenants: typeof tenants;
   users: typeof users;
 }>;
 

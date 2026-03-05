@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
 
     return (
-        <div className="flex min-h-screen bg-[#0d0d12] overflow-x-hidden relative">
+        <div className="flex min-h-screen bg-[var(--color-dark-bg)] overflow-x-hidden relative">
             <AdminSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
             <main className="flex-1 pt-20 lg:pt-0">
                 {children}

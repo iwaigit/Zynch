@@ -46,7 +46,7 @@ export default function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
             <aside className={`
                 fixed lg:relative z-[50]
                 h-screen w-64 lg:w-56
-                bg-[#0d0d12]/95 lg:bg-[#0d0d12]
+                bg-[var(--color-dark-bg)]
                 border-r border-white/5 p-8
                 flex flex-col
                 transition-transform duration-300 ease-in-out
@@ -65,7 +65,12 @@ export default function AdminSidebar({ isOpen, setIsOpen }: AdminSidebarProps) {
                     </button>
                 </div>
 
-                <h1 className="hidden lg:block text-2xl font-black uppercase italic tracking-tighter neon-text-cyan mb-4">
+                <div className="hidden lg:block mb-8">
+                    <Link href="/">
+                        <img src="/logo.png" alt="Zynch Logo" className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity" />
+                    </Link>
+                </div>
+                <h1 className="hidden lg:block text-xs font-black uppercase italic tracking-tighter neon-text-cyan mb-4">
                     {initials} <span className="text-white">ADMIN</span>
                 </h1>
                 <nav className="flex-1 flex flex-col gap-1 font-black uppercase text-[10px] tracking-widest text-white/40 overflow-y-auto custom-scrollbar pr-2">

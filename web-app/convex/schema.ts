@@ -7,8 +7,30 @@ export default defineSchema({
         name: v.string(),
         slug: v.string(), // Identificador único para la URL (ej: "karla-spice")
         ownerId: v.optional(v.id("users")),
+        planType: v.string(), // 'free', 'pro', 'elite'
+        status: v.string(),   // 'active', 'blocked', 'trial'
+        trialEndsAt: v.optional(v.number()),
+        masterNotes: v.optional(v.string()),
         createdAt: v.number(),
-    }).index("by_slug", ["slug"]),
+    }).index("by_slug", ["slug"])
+        .index("by_status", ["status"]),
+
+    // Tabla para validación de registro (One-Time Password)
+    otps: defineTable({
+        email: v.string(),
+        code: v.string(),
+        expiresAt: v.number(),
+    }).index("by_email", ["email"]),
+
+    // Historial de Suscripciones y Pagos
+    subscriptions: defineTable({
+        tenantId: v.id("tenants"),
+        planType: v.string(),
+        startDate: v.number(),
+        endDate: v.number(),
+        status: v.string(), // 'active', 'expired', 'cancelled'
+        paymentId: v.optional(v.string()),
+    }).index("by_tenant", ["tenantId"]),
 
     // Usuarios: Ahora vinculados a un inquilino
     users: defineTable({
