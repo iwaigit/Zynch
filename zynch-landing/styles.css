@@ -833,7 +833,8 @@ body {
     }
 
     .hero-content {
-        margin-bottom: 60px;
+        margin-bottom: 80px;
+        /* Aumentado de 60px para dar más aire */
     }
 
     .hero-subtitle {
@@ -843,12 +844,18 @@ body {
 
     .hero-cta {
         justify-content: center;
+        margin-bottom: 20px;
     }
 
     .hero-visual {
-        height: 380px;
+        height: 400px;
+        /* Aumentado ligeramente */
         width: 100%;
-        margin-top: 20px;
+        margin-top: 60px;
+        /* Aumentado significativamente de 20px */
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .floating-card {
@@ -904,11 +911,19 @@ body {
     .hero-cta {
         flex-direction: column;
         width: 100%;
+        margin-bottom: 40px;
+        /* Separación extra */
     }
 
     .btn-large {
         width: 100%;
         text-align: center;
+    }
+
+    .hero-visual {
+        height: 350px;
+        margin-top: 80px;
+        /* Empuja las tarjetas hacia abajo */
     }
 
     .floating-card {
