@@ -15,11 +15,11 @@
 
 ## Estructura del Proyecto
 
-- **[web-app/](./web-app/)**: La aplicación principal construida con Next.js 16, Tailwind CSS y Convex.
-- **[ai-orchestrator/](./ai-orchestrator/)**: Sistema de agentes de IA para auditoría de seguridad y arquitectura.
-- **[.docs/](./.docs/)**: Documentación técnica y funcional (Sincronizada con GitBook).
-- **[.docs/references/](./.docs/references/)**: Archivos de referencia y benchmarks.
-- **[📧 Email Infrastructure Roadmap](./.docs/saas/roadmap/ZYNCH_EMAIL_IMPLEMENTATION_PLAN.md)**: Plan completo de implementación multi-tenant con Mailgun, auditoría Convex y casos críticos (recibos, estados de cuenta, verificación).
+- **[![Zynch](./.assets/zynch-icon.ico)](./#)** [web-app](./web-app/): La aplicación principal construida con Next.js 16, Tailwind CSS y Convex.
+- **[![Zynch](./.assets/zynch-icon.ico)](./#)** [ai-orchestrator](./ai-orchestrator/): Sistema de agentes de IA para auditoría de seguridad y arquitectura.
+- **[![Zynch](./.assets/zynch-icon.ico)](./#)** [.docs](./.docs/): Documentación técnica y funcional (Sincronizada con GitBook).
+- **[![Zynch](./.assets/zynch-icon.ico)](./#)** [.docs/references](./.docs/references/): Archivos de referencia y benchmarks.
+- **[![Zynch](./.assets/zynch-icon.ico)](./#)** [Email Infrastructure Roadmap](./.docs/saas/roadmap/ZYNCH_EMAIL_IMPLEMENTATION_PLAN.md): Plan completo de implementación multi-tenant con Mailgun, auditoría Convex y casos críticos (recibos, estados de cuenta, verificación).
 
 ## Identidad: Zynch by iwai
 
