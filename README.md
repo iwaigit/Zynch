@@ -1,4 +1,4 @@
-# Zynch by iwai 🦎
+# Zynch by iwai ![Zynch](./.assets/zynch-icon-30.ico)
 
 <p align="center">
   <img src="./.assets/zynch.png" alt="Zynch Logo" width="300">
