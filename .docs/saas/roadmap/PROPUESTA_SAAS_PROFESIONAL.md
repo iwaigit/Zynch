@@ -392,26 +392,53 @@ Para alinear el landing page con los estándares de la industria SaaS (tipo Stri
 
 ---
 
+---
+
+## 13. Automatización con GitHub Actions - [Pendiente #1]
+
+Para escalar la "fábrica" de Zynch, se implementará un flujo de **CI/CD** (Integración y Despliegue Continuo):
+- **Build & Test:** Validación automática del código en cada push.
+- **Auto-Deploy:** Publicación automática en `app.zynch.app` y `www.zynch.app`.
+- **Mantenimiento:** Robots que revisan versiones y dependencias sin intervención manual.
+
+## 14. Integración de Agent Skills (Cerebro IA) - [Pendiente #2]
+
+Se adoptará el estándar de **Skills** (Habilidades especializadas) para optimizar el desarrollo de Antigravity sobre Zynch:
+1.  `convex/best-practices`: Optimización de base de datos en tiempo real.
+2.  `vercel/next-app-router`: Estructura moderna de SaaS.
+3.  `tailwind/design-system`: DNA visual camaleónico.
+4.  `github/actions-automation`: Inteligencia para el punto #13.
+5.  `clerk/auth-security`: Integración profunda con el punto #15.
+6.  `stripe/saas-billing`: Gestión de suscripciones y comisiones.
+7.  `lucide/icon-orchestrator`: Interfaz fluida y ligera.
+8.  `playwright/e2e-testing`: Pruebas de flujo completo de usuario.
+9.  `n8n/automation-patterns`: Conectividad con WhatsApp/Telegram.
+10. `next-seo/visibility`: Posicionamiento en Google.
+11. `fastapi/ai-microservices`: Procesamiento de fotos con IA avanzada.
+
+## 15. Seguridad y Acceso con Clerk - [Pendiente #3]
+
+Implementación del sistema de **Auth** (Seguridad) de nivel bancario:
+- **Costo Operativo:** $0 inicial (hasta 50k usuarios).
+- **UX:** Acceso con 1-clic (Google, Apple, SMS).
+- **Escalabilidad:** Separación total de datos entre inquilinos desde el inicio.
+
+---
+
 ## Conclusión
 
 Zynch tiene una base técnica sólida (Convex multi-tenant, Next.js camaleónico). La profesionalización requiere:
-1. **Seguridad:** RLS completo
+1. **Seguridad:** RLS completo + Clerk
 2. **Producto:** Onboarding fluido + admin dashboard
 3. **Negocio:** Modelo de precios claro + Stripe
-4. **Operaciones:** Documentación + monitoreo
+4. **Automatización:** GitHub Actions + Agent Skills
 
-**Recomendación:** Comenzar con Fase 1 (fundamentos de seguridad) antes de aceptar nuevos tenants.
+**Recomendación:** Iniciar de inmediato con la integración de la **Skill #1 (Convex)** para asentar la base de datos de forma profesional.
 
 ---
 
-**Documento actualizado:** 2026-03-06  
+**Documento actualizado:** 2026-03-09  
 **Cambios por:** Antigravity AI (en nombre de Alberto CEO)
-
----
-
-**Documento preparado para:** Alberto CEO & Pablo Weber - IWAI Automated Processes  
-**Fecha de revisión:** [Pendiente - agregar fecha cuando se discuta]  
-**Próximo paso:** Implementación técnica de navegación responsiva y CTAs en Home
 
 ---
 
