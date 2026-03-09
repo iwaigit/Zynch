@@ -146,7 +146,7 @@
             font-size: 1.5rem;
             font-weight: 300;
             color: #a1a1aa;
-            margin-bottom: 4rem;
+            margin-bottom: 2rem;
             max-width: 600px;
             line-height: 1.4;
         }
@@ -154,6 +154,65 @@
         .subtitle strong {
             color: var(--text-light);
             font-weight: 500;
+        }
+
+        .description {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .description p {
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #25D366, #1da851);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whatsapp-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-btn:hover::before {
+            left: 100%;
+        }
+
+        .whatsapp-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
         }
 
         /* Contador Regresivo */
@@ -227,7 +286,17 @@
 
             .subtitle {
                 font-size: 1.1rem;
-                margin-bottom: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .description {
+                font-size: 0.9rem;
+                margin-bottom: 2rem;
+            }
+
+            .whatsapp-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
             }
 
             .badge {
@@ -284,6 +353,14 @@
         <div class="subtitle">Estamos construyendo el **SaaS élite** que redefinirá la gestión de tu negocio
             independiente.</div>
 
+        <div class="description">
+            <p><strong>Zynch</strong> es la plataforma definitiva diseñada exclusivamente para profesionales que buscan
+                centralizar su marca personal, automatizar la gestión de citas y ofrecer contenido VIP en un entorno
+                seguro y premium.</p>
+            <p>Olvídate de comisiones abusivas y plataformas fragmentadas. Con Zynch, tendrás tu propia aplicación web
+                (ej: <em>tu-nombre.zynch.app</em>) bajo tu control total.</p>
+        </div>
+
         <div class="countdown" id="countdown">
             <div class="time-box">
                 <div class="number" id="days">00</div>
@@ -302,6 +379,15 @@
                 <div class="label">Segundos</div>
             </div>
         </div>
+
+        <a href="https://wa.me/584141320652?text=Hola,%20estoy%20interesado/a%20en%20el%20lanzamiento%20de%20la%20plataforma%20Zynch%20SaaS%20y%20quisiera%20m%C3%A1s%20informaci%C3%B3n."
+            class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+            <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path
+                    d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 414.8c-32 0-63.3-8.6-90.8-24.8l-6.5-3.8-67.4 17.7 18-65.7-4.2-6.7c-17.7-28-27.1-60.5-27.1-93.5 0-103.5 84.3-187.8 187.8-187.8 59.4 0 115 23.2 157 65.2 42.1 42 65.2 97.6 65.2 157.1 0 103.4-84.3 187.5-187.4 187.5zM326.6 288.6c-5.6-2.8-33.3-16.4-38.5-18.3-5.2-1.9-9-2.8-12.8 2.8s-14.7 18.3-18 22c-3.3 3.8-6.6 4.2-12.2 1.4-5.6-2.8-23.7-8.8-45.2-27.9-16.7-14.9-28-33.3-31.3-38.9-3.3-5.6-.4-8.7 2.4-11.5 2.5-2.5 5.6-6.6 8.5-9.9 2.8-3.3 3.8-5.6 5.6-9.4 1.9-3.8.9-7.1-.5-9.9s-12.8-30.9-17.5-42.3c-4.6-11.1-9.2-9.6-12.8-9.8-3.3-.2-7.1-.2-10.8-.2s-9.9 1.4-15 7.1c-5.2 5.6-19.7 19.3-19.7 47.1s20.2 54.6 23 58.4c2.8 3.8 39.8 60.8 96.5 85.3 13.5 5.8 24 9.3 32.2 11.9 13.5 4.3 25.8 3.7 35.6 2.2 10.9-1.6 33.3-13.6 38-26.8 4.7-13.2 4.7-24.4 3.3-26.8-1.5-2.6-5.3-3.8-10.9-6.6z" />
+            </svg>
+            Contáctanos por WhatsApp
+        </a>
     </div>
 
     <div class="footer">
