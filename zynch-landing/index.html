@@ -92,17 +92,27 @@
         }
 
         .zynchito-logo {
+            display: block;
+            margin: 0 auto 1.5rem auto;
             width: 140px;
+            max-width: 80%;
             height: auto;
-            margin-bottom: 1.5rem;
             animation: float 4s ease-in-out infinite;
             filter: drop-shadow(0 0 15px rgba(190, 46, 87, 0.4));
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .logo {
@@ -202,29 +212,62 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .zynchito-logo {
+                width: 110px;
+                margin-bottom: 1rem;
+            }
+
             .logo {
-                font-size: 4rem;
+                font-size: 3.2rem;
             }
 
             .subtitle {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .badge {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.8rem;
+                margin-bottom: 1rem;
             }
 
             .countdown {
-                gap: 1rem;
+                gap: 0.8rem;
             }
 
             .time-box {
-                padding: 1rem 1.5rem;
-                min-width: 70px;
+                padding: 0.8rem 1rem;
+                min-width: 60px;
+                border-radius: 12px;
             }
 
             .number {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
 
             .label {
-                font-size: 0.7rem;
+                font-size: 0.65rem;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .number {
+                font-size: 1.8rem;
+            }
+
+            .time-box {
+                min-width: 55px;
+                padding: 0.6rem 0.8rem;
             }
         }
     </style>
