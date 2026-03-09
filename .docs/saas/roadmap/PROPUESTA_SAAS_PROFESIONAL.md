@@ -1,9 +1,10 @@
 # Propuesta de Profesionalización - Zynch SaaS
 
-> **Fecha:** 2026-03-02  
+> **Fecha:** 2026-03-09  
 > **Autor:** IWAI - Automated Processes (Alberto CEO + Pablo Weber)  
-> **Estado:** Propuesta para revisión  
-> **Versión:** 1.0
+> **Dominio Oficial:** zynch.app
+> **Estado:** Implementación de Infraestructura y Skills  
+> **Versión:** 1.1
 
 ---
 
@@ -398,7 +399,7 @@ Para alinear el landing page con los estándares de la industria SaaS (tipo Stri
 
 Para escalar la "fábrica" de Zynch, se implementará un flujo de **CI/CD** (Integración y Despliegue Continuo):
 - **Build & Test:** Validación automática del código en cada push.
-- **Auto-Deploy:** Publicación automática en `app.zynch.app` y `www.zynch.app`.
+- **Auto-Deploy:** Publicación automática en `admin.zynch.app` y `www.zynch.app`.
 - **Mantenimiento:** Robots que revisan versiones y dependencias sin intervención manual.
 
 ## 14. Integración de Agent Skills (Cerebro IA) - [Pendiente #2]
