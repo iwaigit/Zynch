@@ -9,7 +9,7 @@ export const register = mutation({
     args: {
         tenantId: v.id("tenants"),
         email: v.string(),
-        password: v.string(),
+        password: v.string(), // Temporal hasta Clerk
         birthdate: v.string(),
         phone: v.string(),
     },
@@ -17,20 +17,22 @@ export const register = mutation({
         const config = await ctx.db
             .query("siteConfig")
             .withIndex("by_tenant", (q) => q.eq("tenantId", args.tenantId))
-            .first();
+            .unique(); // Usar .unique() para mayor seguridad
 
         const initials = config?.initials || "ZN";
 
+        // Búsqueda eficiente usando el nuevo índice por tenant
         const existingUser = await ctx.db
             .query("users")
-            .withIndex("by_email", (q) => q.eq("email", args.email.toLowerCase()))
-            .filter((q) => q.eq(q.field("tenantId"), args.tenantId))
+            .withIndex("by_tenant_role", (q) => q.eq("tenantId", args.tenantId))
+            .filter((q) => q.eq(q.field("email"), args.email.toLowerCase()))
             .first();
 
         if (existingUser) {
             throw new Error("Este correo electrónico ya está registrado en este sitio.");
         }
 
+        // Validación de edad
         const birthDate = new Date(args.birthdate);
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
@@ -40,9 +42,10 @@ export const register = mutation({
 
         if (age < 18) throw new Error("Debes tener al menos 18 años.");
 
+        // Nota: El password se eliminará pronto a favor de Clerk
         const passwordRegex = new RegExp(`^${initials}\\d{5}$`);
         if (!passwordRegex.test(args.password.toUpperCase())) {
-            throw new Error(`La contraseña debe ser ${initials} seguido de 5 dígitos.`);
+            throw new Error(`La clave debe ser ${initials} seguido de 5 números.`);
         }
 
         const userId = await ctx.db.insert("users", {
@@ -54,14 +57,6 @@ export const register = mutation({
             isVerified: false,
             role: "client",
             createdAt: Date.now(),
-        });
-
-        await ctx.db.insert("activityLogs", {
-            tenantId: args.tenantId,
-            userId,
-            action: "user_registered",
-            details: `Registro: ${args.email}`,
-            timestamp: Date.now(),
         });
 
         return userId;

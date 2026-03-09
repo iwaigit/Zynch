@@ -12,7 +12,8 @@ export default defineSchema({
         trialEndsAt: v.optional(v.number()),
         masterNotes: v.optional(v.string()),
         createdAt: v.number(),
-    }).index("by_slug", ["slug"])
+    })
+        .index("by_slug", ["slug"])
         .index("by_status", ["status"]),
 
     // Tabla para validación de registro (One-Time Password)
@@ -51,18 +52,18 @@ export default defineSchema({
 
     // Sistema de Citas Profesional
     appointments: defineTable({
-        tenantId: v.optional(v.id("tenants")),
+        tenantId: v.id("tenants"),
         userId: v.id("users"),
         date: v.string(),
         time: v.string(),
         status: v.string(), // 'pending', 'confirmed', 'rejected'
         notes: v.optional(v.string()),
         createdAt: v.number(),
-    }).index("by_date", ["date"])
-        .index("by_tenant_user", ["tenantId", "userId"])
+    })
+        .index("by_tenant", ["tenantId"])
         .index("by_tenant_date", ["tenantId", "date"])
         .index("by_tenant_status", ["tenantId", "status"])
-        .index("by_tenant", ["tenantId"]),
+        .index("by_tenant_user", ["tenantId", "userId"]),
 
     // Tienda y Pedidos
     products: defineTable({
