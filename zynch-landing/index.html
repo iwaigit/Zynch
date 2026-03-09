@@ -1,391 +1,274 @@
 <!DOCTYPE html>
-<!-- Zynch v1.1 - Automático -->
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zynch - Tu Identidad, Tu Motor SaaS</title>
-    <meta name="description"
-        content="Zynch.app: La plataforma camaleónica para gestionar tu negocio con identidad propia, automatización y elegancia.">
+    <title>Zynch | Próximamente</title>
+    <!-- SEO Básico -->
+    <meta name="description" content="Zynch - La plataforma definitiva para la gestión de servicios VIP. Próximamente.">
 
-    <!-- Google Fonts -->
+    <!-- Fuentes premium de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Inter:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            /* Paleta Oficial Zynch */
+            --bg-dark: #09090b;
+            --primary: #FF2D55;
+            --secondary: #00F0FF;
+            --text-light: #f8fafc;
+        }
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Efecto de resplandor dinámico de fondo (Glassmorphism & Gradients) */
+        .glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 45, 85, 0.15) 0%, rgba(0, 240, 255, 0.1) 50%, rgba(9, 9, 11, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+            animation: pulse-glow 8s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .container {
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            animation: fade-in 1.5s ease-out;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: lowercase;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 45, 85, 0.1);
+            border: 1px solid rgba(255, 45, 85, 0.3);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #a1a1aa;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            line-height: 1.4;
+        }
+
+        .subtitle strong {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Contador Regresivo */
+        .countdown {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            min-width: 100px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .time-box:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 240, 255, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(180deg, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.9rem;
+            color: #52525b;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 4rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .countdown {
+                gap: 1rem;
+            }
+
+            .time-box {
+                padding: 1rem 1.5rem;
+                min-width: 70px;
+            }
+
+            .number {
+                font-size: 2.5rem;
+            }
+
+            .label {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
 </head>
 
-<body class="dark-theme">
-    <div class="glow-overlay"></div>
+<body>
+    <!-- Efecto visual de fondo -->
+    <div class="glow"></div>
 
-    <!-- Navigation -->
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="logo">
-                <img src="assets/zynch.png" alt="Zynch Logo" class="nav-logo">
+    <div class="container">
+        <div class="badge">Próximo Lanzamiento</div>
+        <div class="logo">zynch.app</div>
+        <div class="subtitle">Estamos construyendo el **SaaS élite** que redefinirá la gestión de tu negocio
+            independiente.</div>
+
+        <div class="countdown" id="countdown">
+            <div class="time-box">
+                <div class="number" id="days">00</div>
+                <div class="label">Días</div>
             </div>
-            <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#vision">Visión</a></li>
-                <li><a href="#inquilinos">Inquilinos</a></li>
-                <li><a href="#planes">Planes</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="https://app.zynch.app/login" class="nav-login-link">Ingresar</a>
-                <a href="https://app.zynch.app/onboarding" class="btn btn-primary">Crear Negocio</a>
+            <div class="time-box">
+                <div class="number" id="hours">00</div>
+                <div class="label">Horas</div>
             </div>
-        </div>
-    </nav>
-
-    <main>
-        <!-- Hero Section -->
-        <section id="inicio" class="hero">
-            <div class="hero-content">
-                <div class="hero-brand">
-                    <img src="assets/zynch.png" alt="Zynch Logo" class="hero-logo">
-                    <h1 class="hero-title">ZYNCH</h1>
-                </div>
-                <div class="hero-tagline">
-                    SAAS PLATFORM <span class="tagline-sep">|</span>
-                    IWAI AUTOMATED PROCESSES
-                </div>
-
-                <h2 class="hero-headline">
-                    Tu Marca <span class="gradient-text">Sin Límites</span><br>
-                    Nuestro Motor Camaleónico.
-                </h2>
-                <p class="hero-subtitle">
-                    Zynch es la plataforma SaaS que se adapta a tu identidad. Gestiona tus ventas, galería y clientes
-                    con una interfaz que se viste de tu marca instantáneamente.
-                </p>
-                <div class="hero-cta">
-                    <a href="https://app.zynch.app/onboarding" class="btn btn-large btn-primary">Crear Mi Negocio</a>
-                    <a href="#vision" class="btn btn-large btn-outline">Ver Cómo Funciona</a>
-                </div>
+            <div class="time-box">
+                <div class="number" id="minutes">00</div>
+                <div class="label">Minutos</div>
             </div>
-
-            <div class="hero-visual" onclick="this.classList.toggle('is-swapped')">
-                <div class="floating-card glass-card card-1">
-                    <div class="card-glow"></div>
-                    <img src="assets/tenants/karla-spice/profile.png" alt="Karla Spice" class="card-img">
-                    <div class="tenant-badge">Karla Spice</div>
-                </div>
-                <div class="floating-card glass-card card-2">
-                    <img src="assets/tenants/melissa-bennet/profile.png" alt="Melissa Bennet" class="card-img">
-                    <div class="tenant-badge">Melissa Bennet</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Vision Section -->
-        <section id="vision" class="vision">
-            <div class="section-header">
-                <span class="badge">Tecnología</span>
-                <h2>Visión <span class="neon-pink">Camaleónica</span></h2>
-                <p>No somos otro sitio genérico. Zynch transforma su ADN visual para que cada inquilino se sienta dueño
-                    absoluto de su experiencia.</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card glass-card">
-                    <i data-lucid="palette" class="feature-icon icon-cyan"></i>
-                    <h3>Branding Dinámico</h3>
-                    <p>Colores, logos y tipografías que cambian en milisegundos según el usuario.</p>
-                </div>
-                <div class="feature-card glass-card">
-                    <i data-lucid="zap" class="feature-icon icon-pink"></i>
-                    <h3>Automatización n8n</h3>
-                    <p>Notificaciones por WhatsApp y Telegram integradas para tus ventas.</p>
-                </div>
-                <div class="feature-card glass-card">
-                    <i data-lucid="shield-check" class="feature-icon icon-cyan"></i>
-                    <h3>Seguridad Multi-Tenant</h3>
-                    <p>Aislamiento total de datos. Tu información está blindada y es solo tuya.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Carousel Section -->
-        <section id="inquilinos" class="carousel-section">
-            <div class="section-header">
-                <h2>Nuestros <span class="gradient-text">Inquilinos</span></h2>
-                <p>Marcas que ya están operando con el motor Zynch.</p>
-            </div>
-
-            <div class="carousel-container">
-                <div class="carousel-track">
-                    <!-- Slide 1: Karla Spice -->
-                    <div class="tenant-slide glass-card">
-                        <div class="tenant-img-container">
-                            <img src="assets/tenants/karla-spice/profile.png" alt="Karla Spice">
-                            <div class="tenant-overlay">Ver Perfil</div>
-                        </div>
-                        <div class="tenant-info">
-                            <h4>Karla Spice</h4>
-                            <p>Creadora de Contenido</p>
-                            <span class="status-badge active">Alpha</span>
-                        </div>
-                    </div>
-                    <!-- Slide 2: Melissa Bennet -->
-                    <div class="tenant-slide glass-card">
-                        <div class="tenant-img-container">
-                            <img src="assets/tenants/melissa-bennet/profile.png" alt="Melissa Bennet">
-                            <div class="tenant-overlay">Ver Perfil</div>
-                        </div>
-                        <div class="tenant-info">
-                            <h4>Melissa Bennet</h4>
-                            <p>Moda & Lifestyle</p>
-                            <span class="status-badge active">Activo</span>
-                        </div>
-                    </div>
-                    <!-- Slide 3: Jazmin -->
-                    <div class="tenant-slide glass-card">
-                        <div class="tenant-img-container">
-                            <img src="assets/tenants/jazmin/profile.png" alt="Jazmin">
-                            <div class="tenant-overlay">Ver Perfil</div>
-                        </div>
-                        <div class="tenant-info">
-                            <h4>Jazmin</h4>
-                            <p>Influencer & Bienestar</p>
-                            <span class="status-badge trial">Prueba</span>
-                        </div>
-                    </div>
-                    <!-- Duplicate for infinite scroll -->
-                    <div class="tenant-slide glass-card">
-                        <div class="tenant-img-container">
-                            <img src="assets/tenants/karla-spice/profile.png" alt="Karla Spice">
-                            <div class="tenant-overlay">Ver Perfil</div>
-                        </div>
-                        <div class="tenant-info">
-                            <h4>Karla Spice</h4>
-                            <p>Creadora de Contenido</p>
-                            <span class="status-badge active">Alpha</span>
-                        </div>
-                    </div>
-                    <div class="tenant-slide glass-card">
-                        <div class="tenant-img-container">
-                            <img src="assets/tenants/melissa-bennet/profile.png" alt="Melissa Bennet">
-                            <div class="tenant-overlay">Ver Perfil</div>
-                        </div>
-                        <div class="tenant-info">
-                            <h4>Melissa Bennet</h4>
-                            <p>Moda & Lifestyle</p>
-                            <span class="status-badge active">Activo</span>
-                        </div>
-                    </div>
-                    <div class="tenant-slide glass-card">
-                        <div class="tenant-img-container">
-                            <img src="assets/tenants/jazmin/profile.png" alt="Jazmin">
-                            <div class="tenant-overlay">Ver Perfil</div>
-                        </div>
-                        <div class="tenant-info">
-                            <h4>Jazmin</h4>
-                            <p>Influencer & Bienestar</p>
-                            <span class="status-badge trial">Prueba</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Pricing Section -->
-        <section id="planes" class="pricing">
-            <div class="section-header">
-                <span class="badge">Inversión</span>
-                <h2>Planes para <span class="gradient-text">Crecer</span></h2>
-                <p>Elige el motor que impulsará tu marca. Sin costos ocultos, solo resultados.</p>
-            </div>
-
-            <!-- Billing cycle toggle -->
-            <div class="pricing-toggle-container">
-                <span class="toggle-label monthly active">Mensual</span>
-                <div class="pricing-toggle-switch" onclick="togglePricing()">
-                    <div class="toggle-puck"></div>
-                </div>
-                <span class="toggle-label quarterly">Trimestral <span class="discount-badge">-10%</span></span>
-                <span class="toggle-label semestral">Semestral <span class="discount-badge">-20%</span></span>
-            </div>
-
-            <div class="pricing-grid-4">
-                <!-- Plan Free -->
-                <div class="price-card glass-card">
-                    <div class="plan-icon"><i data-lucide="zap"></i></div>
-                    <div class="price-header">
-                        <h3>Free</h3>
-                        <div class="price">$0<span>/mes</span></div>
-                        <p class="plan-tagline">Para empezar hoy mismo</p>
-                    </div>
-                    <ul class="price-features">
-                        <li><i data-lucide="check"></i> 1 Tenant activo</li>
-                        <li><i data-lucide="check"></i> 3 Fotos de perfil</li>
-                        <li><i data-lucide="check"></i> Perfil camaleónico</li>
-                        <li><i data-lucide="check"></i> Calendario básico</li>
-                        <li><i data-lucide="check"></i> "Powered by Zynch"</li>
-                        <li><i data-lucide="check"></i> Soporte por comunidad</li>
-                        <li><i data-lucide="check"></i> Storage: 500 MB</li>
-                    </ul>
-                    <div class="plan-commission">15% comisión</div>
-                    <a href="https://app.zynch.app/onboarding" class="btn btn-outline btn-full">Empezar Gratis</a>
-                </div>
-
-                <!-- Plan Pro -->
-                <div class="price-card glass-card pro">
-                    <div class="plan-icon"><i data-lucide="star"></i></div>
-                    <div class="price-header">
-                        <h3>Pro</h3>
-                        <div class="price" id="price-pro" data-monthly="60" data-quarterly="54" data-semestral="48">
-                            $60<span>/mes</span></div>
-                        <p class="plan-tagline">Marca profesional</p>
-                    </div>
-                    <ul class="price-features">
-                        <li><i data-lucide="check"></i> 1 Tenant activo</li>
-                        <li><i data-lucide="check"></i> 6 Fotos en galería</li>
-                        <li><i data-lucide="check"></i> Custom domain propio</li>
-                        <li><i data-lucide="check"></i> Calendario esencial</li>
-                        <li><i data-lucide="check"></i> Sin marca de agua</li>
-                        <li><i data-lucide="check"></i> WhatsApp Directo</li>
-                        <li><i data-lucide="check"></i> Storage: 5 GB</li>
-                    </ul>
-                    <div class="plan-commission">10% comisión</div>
-                    <a href="https://app.zynch.app/onboarding" class="btn btn-primary btn-full">Adquirir Pro</a>
-                </div>
-
-                <!-- Plan Elite (NUEVO) -->
-                <div class="price-card glass-card elite featured">
-                    <div class="popular-badge">Más Vendido</div>
-                    <div class="plan-icon icon-pink"><i data-lucide="trophy"></i></div>
-                    <div class="price-header">
-                        <h3>Elite</h3>
-                        <div class="price" id="price-elite" data-monthly="95" data-quarterly="85" data-semestral="76">
-                            $95<span>/mes</span></div>
-                        <p class="plan-tagline">Potencia máxima individual</p>
-                    </div>
-                    <ul class="price-features">
-                        <li><i data-lucide="check"></i> 1 Tenant activo</li>
-                        <li><i data-lucide="check"></i> <strong>12 Fotos (Máximo)</strong></li>
-                        <li><i data-lucide="check"></i> <strong>Tienda de Packs</strong></li>
-                        <li><i data-lucide="check"></i> Calendario Ilimitado</li>
-                        <li><i data-lucide="check"></i> Gestión VIP avanzada</li>
-                        <li><i data-lucide="check"></i> Promo codes & bundles</li>
-                        <li><i data-lucide="check"></i> Storage: 20 GB</li>
-                    </ul>
-                    <div class="plan-commission">8% comisión</div>
-                    <a href="https://app.zynch.app/onboarding" class="btn btn-primary btn-full">Suscribirse Elite</a>
-                </div>
-
-                <!-- Enterprise -->
-                <div class="price-card glass-card enterprise">
-                    <div class="enterprise-badge">Agencias</div>
-                    <div class="plan-icon icon-cyan"><i data-lucide="building-2"></i></div>
-                    <div class="price-header">
-                        <h3>Enterprise</h3>
-                        <div class="price" id="price-enterprise" data-monthly="199" data-quarterly="179"
-                            data-semestral="159">$199<span>/mes</span></div>
-                        <p class="plan-tagline">Multi-tenant illimitado</p>
-                    </div>
-                    <ul class="price-features">
-                        <li><i data-lucide="check"></i> Múltiples tenants</li>
-                        <li><i data-lucide="check"></i> White-label total</li>
-                        <li><i data-lucide="check"></i> API & Webhooks</li>
-                        <li><i data-lucide="check"></i> Soporte dedicado 24/7</li>
-                        <li><i data-lucide="check"></i> Onboarding asistido</li>
-                        <li><i data-lucide="check"></i> Storage: 100 GB+</li>
-                        <li><i data-lucide="check"></i> Setup personalizado</li>
-                    </ul>
-                    <div class="plan-commission">5% comisión</div>
-                    <a href="mailto:hola@zynch.app" class="btn btn-enterprise btn-full">Contactar Ventas</a>
-                </div>
-
-            </div>
-
-            <!-- Revenue streams note -->
-            <div class="revenue-note">
-                <p>💡 <strong>Ingresos adicionales:</strong> Add-ons disponibles: SMS, storage extra, dominio
-                    personalizado. Planes anuales con descuento.</p>
-            </div>
-        </section>
-    </main>
-
-    <footer class="main-footer">
-        <!-- Sitemap -->
-        <div class="footer-sitemap">
-            <div class="footer-brand">
-                <img src="assets/zynch.png" alt="Zynch Logo" class="footer-logo">
-                <p class="footer-desc">La plataforma SaaS camaleónica que se adapta a tu identidad. Gestiona tu negocio
-                    con elegancia y automatización.</p>
-                <div class="social-icons">
-                    <a href="https://instagram.com/zynch.app" target="_blank" aria-label="Instagram"><i
-                            data-lucide="instagram"></i></a>
-                    <a href="https://twitter.com/zynchapp" target="_blank" aria-label="Twitter/X"><i
-                            data-lucide="twitter"></i></a>
-                    <a href="https://wa.me/" target="_blank" aria-label="WhatsApp"><i
-                            data-lucide="message-circle"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4>Plataforma</h4>
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#vision">Visión</a></li>
-                    <li><a href="#inquilinos">Inquilinos</a></li>
-                    <li><a href="#planes">Planes</a></li>
-                    <li><a href="https://app.zynch.app/onboarding">Crear Mi Negocio</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Producto</h4>
-                <ul>
-                    <li><a href="https://app.zynch.app" target="_blank">App Zynch</a></li>
-                    <li><a href="#vision">Branding Dinámico</a></li>
-                    <li><a href="#vision">Automatización n8n</a></li>
-                    <li><a href="#vision">Seguridad Multi-Tenant</a></li>
-                    <li><a href="#planes">Precios</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Recursos</h4>
-                <ul>
-                    <li><a href="mailto:hola@zynch.app">Contacto</a></li>
-                    <li><a href="mailto:soporte@zynch.app">Soporte</a></li>
-                    <li><a href="mailto:ventas@zynch.app">Ventas Enterprise</a></li>
-                    <li><a href="https://iwai.work" target="_blank">IWAI Processes</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Términos de Servicio</a></li>
-                    <li><a href="#">Política de Privacidad</a></li>
-                    <li><a href="#">Política de Cookies</a></li>
-                    <li><a href="#">GDPR / Compliance</a></li>
-                </ul>
+            <div class="time-box">
+                <div class="number" id="seconds">00</div>
+                <div class="label">Segundos</div>
             </div>
         </div>
+    </div>
 
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <p>© 2026 <strong>Zynch.app</strong> — Powered by <a href="https://iwai.work" target="_blank">IWAI Automated
-                    Processes</a></p>
-            <p class="footer-tagline">Tu Identidad. Tu Motor. Tu Negocio.</p>
-        </div>
-    </footer>
+    <div class="footer">
+        &copy; 2026 Zynch. Arquitectura por IWAI.
+    </div>
 
-    <script src="js/pricing.js"></script>
+    <!-- Script de lógica de cuenta regresiva para 2 meses (60 días aprox) -->
     <script>
-        // Initialize Icons
-        lucide.createIcons();
+        // Configurar la fecha objetivo a 2 meses desde hoy (Mayo 9, 2026 aprox)
+        const targetDate = new Date();
+        targetDate.setMonth(targetDate.getMonth() + 2);
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate.getTime() - now;
+
+            if (distance < 0) {
+                document.getElementById("countdown").innerHTML = "<div class='subtitle' style='margin:0'>¡Ya estamos en vivo!</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Actualizar el DOM agregando un cero inicial si es menor a 10
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        }
+
+        // Actualizar cada segundo
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Llamada inicial instantánea
     </script>
 </body>
 
