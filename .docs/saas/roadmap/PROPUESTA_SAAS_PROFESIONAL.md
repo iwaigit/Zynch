@@ -426,20 +426,96 @@ Implementación del sistema de **Auth** (Seguridad) de nivel bancario:
 
 ---
 
-## Conclusión
+## 16. Estrategia Anti-Abuso Freemium - [NUEVO]
 
-Zynch tiene una base técnica sólida (Convex multi-tenant, Next.js camaleónico). La profesionalización requiere:
-1. **Seguridad:** RLS completo + Clerk
-2. **Producto:** Onboarding fluido + admin dashboard
-3. **Negocio:** Modelo de precios claro + Stripe
-4. **Automatización:** GitHub Actions + Agent Skills
+### **Regla de Oro: 1 WhatsApp = 1 Plan Gratis**
+- **Identificador Principal**: Número de WhatsApp verificado por SMS
+- **Device Fingerprinting**: Clerk proporciona ID único de dispositivo
+- **Base de Datos Permanente**: Convex almacena identidad verificada
 
-**Recomendación:** Iniciar de inmediato con la integración de la **Skill #1 (Convex)** para asentar la base de datos de forma profesional.
+```typescript
+// Schema en Convex:
+users: {
+  clerkId: string,        // ID único de Clerk
+  telefono: string,       // WhatsApp verificado (único)
+  deviceId: string,       // Dispositivo único (Clerk)
+  email: string,          // Correo verificado
+  planStatus: 'free' | 'pro' | 'elite' | 'enterprise',
+  canCreateNewFree: boolean, // Reset solo con pago
+  createdAt: timestamp
+}
+```
+
+### **Niveles de Bloqueo**
+1. **WhatsApp**: Si ya existe → "Upgrade required"
+2. **Device ID**: Si ya usó free → "Solo upgrade disponible"
+3. **Comportamiento**: Mismas fotos/horarios → sospecha
+
+### **Flujo de Upgrade**
+- Pago aprobado (Stripe) → `planStatus = 'pro'`
+- Status cambiado → no puede volver a free
+- Nuevo intento free → "Tu WhatsApp ya es Pro"
 
 ---
 
-**Documento actualizado:** 2026-03-09  
-**Cambios por:** Antigravity AI (en nombre de Alberto CEO)
+## 17. Verificación de Identidad y Blindaje Legal - [NUEVO]
+
+### **Verificación Obligatoria (Planes Pro/Elite)**
+```typescript
+// Schema en Convex:
+tenantVerification: {
+  tenantId: string,
+  rif: string,              // OBLIGATORIO - Validar contra SENIAT
+  cedulaFront: string,      // Foto frontal cédula
+  cedulaBack: string,       // Foto trasera cédula
+  selfieWithCedula: string, // Selfie con cédula en mano
+  nombreLegal: string,      // Como aparece en documento
+  verifiedAt: timestamp,
+  status: 'pending' | 'approved' | 'rejected'
+}
+```
+
+### **Contratos Digitales por Nivel**
+- **Plan Pro ($60/mes)**: Contrato simple de exención de responsabilidad
+- **Plan Elite ($95/mes)**: Términos detallados + políticas de contenido
+- **Plan Enterprise**: Contrato legal completo con cláusulas de confidencialidad
+
+### **Cláusulas Esenciales de Blindaje**
+1. **Exención de Responsabilidad**: "Zynch es solo plataforma tecnológica"
+2. **Términos de Contenido**: "Tenant es 100% responsable de su contenido"
+3. **Protección de Marca**: "Uso no autorizado de marca Zynch prohibido"
+
+---
+
+## 18. Seguro Legal Opcional - [PENDIENTE CONTACTO]
+
+### **Contacto Profesional**
+- **Andrea - Abogada**: 📞 0424.1580932
+- **Especialidad**: Asesoría legal para plataformas digitales
+- **Propuesta**: Diseñar seguro de protección legal para tenants
+
+### **Opción Adicional**
+- **Seguro Legal**: $10/mes adicional
+- **Beneficios**: Asesoría básica, mediación de disputas
+- **Target**: Tenants que quieren protección extra
+
+---
+
+## Conclusión
+
+Zynch tiene una base técnica sólida (Convex multi-tenant, Next.js camaleónico). La profesionalización requiere:
+1. **Seguridad:** RLS completo + Clerk + Estrategia Anti-Abuso Freemium
+2. **Producto:** Onboarding fluido + Verificación de Identidad + Contratos Digitales
+3. **Negocio:** Modelo de precios claro + Stripe + Seguro Legal Opcional
+4. **Automatización:** GitHub Actions + Agent Skills
+
+**Recomendación:** Iniciar de inmediato con la integración de la **Skill #1 (Convex)** para asentar la base de datos de forma profesional, seguido de la implementación de la Estrategia Anti-Abuso Freemium (WhatsApp + Device ID) y Verificación de Identidad (RIF + Cédula + Selfie).
+
+---
+
+**Documento actualizado:** 2026-03-10  
+**Cambios por:** Conversación estratégica (Alberto CEO + Cascade AI)  
+**Nuevas secciones:** Estrategia Anti-Abuso Freemium, Verificación de Identidad, Blindaje Legal, Seguro Opcional
 
 ---
 
