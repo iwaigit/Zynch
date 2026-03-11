@@ -1,8 +1,8 @@
 # 🚀 Plan de Trabajo: Zynch by iwai Platform
 
-> **Fecha:** 22 de Febrero, 2026  
-> **Estado:** En desarrollo  
-> **Colaboradores:** iwaigit + Agentes IA
+> **Fecha:** 10 de Marzo, 2026  
+> **Estado:** FASE 0 Completada - Landing Page en Vivo  
+> **Colaboradores:** iwaigit + Antigravity (IA)
 
 ---
 
@@ -30,6 +30,18 @@ Transformar la aplicación de una solución personalizada a **Zynch by iwai**, u
 ---
 
 ## 🏗️ FASES DEL PROYECTO
+
+### **FASE 0: Lanzamiento y Dominio**
+*Identidad inicial del proyecto*
+
+| # | Tarea | Estado | Commit |
+|---|-------|--------|--------|
+| 0.1 | Adquisición de dominio `zynch.app` | ✅ Completado | - |
+| 0.2 | Configuración de DNS en Porkbun (A, CNAME) | ✅ Completado | - |
+| 0.3 | Despliegue de Landing Page en GitHub Pages | ✅ Completado | `fa1bb43` |
+| 0.4 | Activación de SSL/HTTPS | ✅ Completado | - |
+
+---
 
 ### **FASE 1: Sistema de Configuración Global** 
 *Base para hacer la app extensible*
@@ -123,13 +135,14 @@ Zynch/
 
 ## ✅ Checklist General
 
+- [x] FASE 0 completada (Landing Page & Dominio)
 - [ ] FASE 1 completada
 - [ ] FASE 2 completada
 - [ ] FASE 3 completada (futuro)
 - [ ] FASE 4 completada
-- [ ] Documentación actualizada
-- [ ] Pruebas en local aprobadas
-- [ ] Ready para producción
+- [x] Documentación actualizada
+- [x] Pruebas en local aprobadas
+- [x] Ready para producción (Landing)
 
 ---
 

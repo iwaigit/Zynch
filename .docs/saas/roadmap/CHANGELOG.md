@@ -60,6 +60,20 @@
 ### Commit
 `39e101f` - docs: Add general development roadmap
 
+## [FASE-0] Despliegue de Landing Page yDominio - 2026-03-10
+
+### Agregado
+- Landing page oficial en `zynch-landing/` desplegada.
+- Configuración de dominio `zynch.app` en Porkbun.
+- Registros DNS (A, CNAME) apuntando a GitHub Pages.
+- SSL/HTTPS activado y forzado.
+
+### Modificado
+- `landing-deploy.yml`: Corregido para desplegar la carpeta de la landing en lugar de un placeholder.
+
+### Commit
+`fa1bb43` - Fix: Configure landing page deployment
+
 ---
 
 ## Próximos cambios esperados
