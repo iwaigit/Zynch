@@ -4,8 +4,8 @@ on:
   push:
     branches: ["main"]
     paths:
-      - 'docs/**'  # Cambiado a docs/ para documentación
-      - 'README.md'
+      - 'zynch-landing/**'
+      - '.github/workflows/landing-deploy.yml'
 
   workflow_dispatch:
 
@@ -31,17 +31,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Build docs site
-        run: |
-          echo "# IWAI - Automated Processes" > index.html
-          echo "<h1>Zynch SaaS Platform</h1>" >> index.html
-          echo "<p>Professional multi-tenant platform for service providers</p>" >> index.html
-          echo "<a href='https://github.com/iwaigit/Zynch'>View on GitHub</a>" >> index.html
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './index.html'
+          path: './zynch-landing'
 
       - name: Deploy to GitHub Pages
         id: deployment
