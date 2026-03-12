@@ -60,7 +60,8 @@ export default function RegisterForm({ initialMode = 'register', onClose }: Regi
                     email: validatedData.email,
                     password: validatedData.password,
                     birthdate: validatedData.birthdate,
-                    phone: validatedData.phone
+                    phone: validatedData.phone,
+                    deviceId: 'web-device' // Temporal hasta obtener device ID real
                 });
 
                 authLogin({ id: userId, email: validatedData.email, role: 'client' });

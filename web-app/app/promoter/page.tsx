@@ -12,7 +12,7 @@ export default function PromoterDashboard() {
     const { name } = useSiteConfig();
     const { user, isAuthenticated, isVerified } = useAuth();
     const router = useRouter();
-    const activityLogs = useQuery(api.activityLogs.listAll);
+    const activityLogs = useQuery(api.activityLogs.listAll, { tenantId: 'default-tenant' as any }); // Temporal
 
     useEffect(() => {
         if (!isAuthenticated) {

@@ -132,7 +132,7 @@ function TagToggle({ options, selected, onChange }: { options: string[]; selecte
 
 // ── Main Component ───────────────────────────────────────────────────────────
 export default function AdminConfig() {
-    const config = useQuery(api.siteConfig.get);
+    const config = useQuery(api.siteConfig.get, { slug: 'default-tenant' }); // Temporal
     const updateConfig = useMutation(api.siteConfig.update);
     const resetConfig = useMutation(api.siteConfig.resetToDefaults);
 
@@ -190,6 +190,7 @@ export default function AdminConfig() {
         setSaving(true);
         try {
             await updateConfig({
+                tenantId: 'default-tenant' as any, // Temporal hasta que tengamos el tenantId real
                 ...formData,
                 schedule: {
                     is24h: formData.schedule.is24h,
@@ -241,7 +242,7 @@ export default function AdminConfig() {
                 <div className="flex items-center gap-3">
                     <button
                         type="button"
-                        onClick={() => resetConfig()}
+                        onClick={() => resetConfig({ tenantId: 'default-tenant' as any })}
                         className="text-[8px] font-black uppercase px-3 py-1.5 border border-red-500/30 text-red-500/50 hover:border-red-500/60 hover:text-red-500 transition-all rounded"
                     >
                         ↺ Reset

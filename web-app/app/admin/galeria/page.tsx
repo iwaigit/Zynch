@@ -44,7 +44,7 @@ export default function GaleriaAdmin() {
             // 3. Procesar Imagen (Resize + Watermark + Rename + Compress)
             const processedFile = await processImage(file, sequentialName, name);
 
-            const postUrl = await generateUploadUrl();
+            const postUrl = await generateUploadUrl({ tenantId: 'default-tenant' as any });
             const result = await fetch(postUrl, {
                 method: "POST",
                 headers: { "Content-Type": processedFile.type },

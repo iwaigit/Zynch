@@ -8,7 +8,8 @@ import RegisterForm, { FormMode } from '@/components/RegisterForm';
 import { useSiteConfig } from '@/hooks/useSiteConfig';
 
 export default function LinkTree() {
-    const { name, logo, links, email } = useSiteConfig();
+    const { name, links, email } = useSiteConfig();
+    const logo = undefined; // Temporal hasta que logo esté disponible en la configuración
     const { language, setLanguage, t } = useLanguage();
     const [showMenu, setShowMenu] = useState(false);
     const [showAuth, setShowAuth] = useState(false);

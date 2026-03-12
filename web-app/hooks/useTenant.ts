@@ -81,8 +81,13 @@ export function useTenant(): UseTenantReturn {
   
   // Detectar tenant en mount
   useEffect(() => {
-    const info = getTenantFromMeta();
-    setTenantInfo(info);
+    let isMounted = true;
+    let info = null;
+    info = getTenantFromMeta();
+    if (isMounted && info) {
+      setTenantInfo(info);
+    }
+    return () => { isMounted = false; };
   }, []);
   
   // Query a Convex para obtener la config del tenant
@@ -98,11 +103,19 @@ export function useTenant(): UseTenantReturn {
   const [error, setError] = useState<Error | null>(null);
   
   useEffect(() => {
+    let isMounted = true;
+    let errorToSet = null;
+    
     if (siteConfig === null && tenantInfo.slug) {
-      setError(new Error(`Tenant "${tenantInfo.slug}" no encontrado`));
+      errorToSet = new Error(`Tenant "${tenantInfo.slug}" no encontrado`);
     } else {
-      setError(null);
+      errorToSet = null;
     }
+    
+    if (isMounted) {
+      setError(errorToSet);
+    }
+    return () => { isMounted = false; };
   }, [siteConfig, tenantInfo.slug]);
   
   return {
@@ -122,8 +135,13 @@ export function useTenantSlug(): string | null {
   const [slug, setSlug] = useState<string | null>(null);
   
   useEffect(() => {
-    const info = getTenantFromMeta();
-    setSlug(info.slug);
+    let isMounted = true;
+    let info = null;
+    info = getTenantFromMeta();
+    if (isMounted && info) {
+      setSlug(info.slug);
+    }
+    return () => { isMounted = false; };
   }, []);
   
   return slug;

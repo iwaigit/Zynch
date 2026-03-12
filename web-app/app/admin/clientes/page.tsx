@@ -8,7 +8,7 @@ import { useSiteConfig } from "@/hooks/useSiteConfig";
 export default function ClientesAdmin() {
     const { name } = useSiteConfig();
     const initials = name.split(' ').map(n => n[0]).join('');
-    const clients = useQuery(api.crm.listClients);
+    const clients = useQuery(api.crm.listClients, { tenantId: 'default-tenant' as any }); // Temporal
 
     return (
         <main className="flex-1 p-8 md:p-12 space-y-12">

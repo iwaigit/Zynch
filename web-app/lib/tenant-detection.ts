@@ -1,4 +1,5 @@
 import { ConvexHttpClient } from 'convex/browser';
+import { api } from '../convex/_generated/api';
 
 // Cliente Convex para verificación de tenants
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
@@ -8,7 +9,7 @@ const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
  */
 export async function verifyTenant(slug: string) {
   try {
-    const tenant = await convex.query('tenants:bySlug', { slug }) as any;
+    const tenant = await convex.query(api.siteConfig.get, { slug }) as any;
     return tenant;
   } catch (error) {
     console.error('Error verifying tenant:', error);

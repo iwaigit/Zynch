@@ -29,14 +29,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const [cart, setCart] = useState<CartItem[]>([]);
 
     useEffect(() => {
+        let isMounted = true;
+        let parsed = null;
         const savedCart = localStorage.getItem('ks-cart');
         if (savedCart) {
             try {
-                setCart(JSON.parse(savedCart));
+                parsed = JSON.parse(savedCart);
             } catch (e) {
                 console.error('Error loading cart', e);
             }
         }
+        if (isMounted && parsed) {
+            setCart(parsed);
+        }
+        return () => { isMounted = false; };
     }, []);
 
     useEffect(() => {

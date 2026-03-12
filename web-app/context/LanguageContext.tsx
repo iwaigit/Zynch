@@ -147,10 +147,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const [language, setLanguage] = useState<Language>('es');
 
     useEffect(() => {
-        const savedLang = localStorage.getItem('ks-language') as Language;
-        if (savedLang && (savedLang === 'es' || savedLang === 'en')) {
+        let isMounted = true;
+        let savedLang = null;
+        const langFromStorage = localStorage.getItem('ks-language');
+        if (langFromStorage && (langFromStorage === 'es' || langFromStorage === 'en')) {
+            savedLang = langFromStorage as Language;
+        }
+        if (isMounted && savedLang) {
             setLanguage(savedLang);
         }
+        return () => { isMounted = false; };
     }, []);
 
     const handleSetLanguage = (lang: Language) => {

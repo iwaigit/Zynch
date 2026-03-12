@@ -142,7 +142,10 @@ export default function AboutPerformer() {
                             <span className="text-[8px] font-black uppercase bg-[var(--color-neon-cyan)] text-black px-1.5 py-0.5 soft-blink">Activa Ahora</span>
                         </div>
                         <p className="font-black text-[11px] text-white mb-2">
-                            {schedule?.is24h ? '24 Horas / Full Time' : `${schedule?.from} - ${schedule?.to}`}
+                            {schedule?.is24h ? '24 Horas / Full Time' : 
+                             'from' in schedule && 'to' in schedule ? 
+                             `${schedule.from} - ${schedule.to}` : 'Horario flexible'
+                            }
                         </p>
                         <div className="flex gap-1.5">
                             {schedule?.workingDays?.map((day: string) => (
@@ -184,26 +187,37 @@ export default function AboutPerformer() {
                     </div>
 
                     <div className="space-y-4">
-                        {[
-                            { label: '1 Hora de Servicio', val: pricing?.h1 },
-                            { label: '2 Horas de Servicio', val: pricing?.h2 },
-                            { label: 'Cita Nocturna', val: pricing?.night },
-                            { label: pricing?.customLabel || 'Servicio Extra', val: pricing?.customPrice },
-                        ].filter(p => p.val).map(item => (
-                            <div key={item.label} className="glass-card p-6 flex justify-between items-center border-white/5 group hover:border-[var(--color-neon-cyan)]/30 transition-all translate-x-0 overflow-hidden">
-                                <div className="space-y-1">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-white/60">{item.label}</p>
-                                    <p className="text-[9px] font-bold text-[#f8f8f8]/40 uppercase tracking-wider">
-                                        ≈ Bs. {formatVES(item.val!)}
-                                    </p>
+                        {(() => {
+                            const items = [
+                                { label: '1 Hora de Servicio', val: pricing?.h1 },
+                            ];
+                            
+                            if (pricing && 'h2' in pricing && pricing.h2) {
+                                items.push({ label: '2 Horas de Servicio', val: pricing.h2 });
+                            }
+                            if (pricing && 'night' in pricing && pricing.night) {
+                                items.push({ label: 'Cita Nocturna', val: pricing.night });
+                            }
+                            if (pricing && 'customLabel' in pricing && pricing.customLabel && 'customPrice' in pricing && pricing.customPrice) {
+                                items.push({ label: pricing.customLabel, val: pricing.customPrice });
+                            }
+                            
+                            return items.filter(p => p.val).map(item => (
+                                <div key={item.label} className="glass-card p-6 flex justify-between items-center border-white/5 group hover:border-[var(--color-neon-cyan)]/30 transition-all translate-x-0 overflow-hidden">
+                                    <div className="space-y-1">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-white/60">{item.label}</p>
+                                        <p className="text-[9px] font-bold text-[#f8f8f8]/40 uppercase tracking-wider">
+                                            ≈ Bs. {formatVES(item.val!)}
+                                        </p>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-2xl font-black italic tracking-tighter text-white">
+                                            Ref. {item.val} <span className="text-[10px] not-italic text-[var(--color-neon-cyan)] font-black tracking-widest border border-[var(--color-neon-cyan)]/30 px-1.5 py-0.5 ml-2">CA$H</span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="text-right">
-                                    <p className="text-2xl font-black italic tracking-tighter text-white">
-                                        Ref. {item.val} <span className="text-[10px] not-italic text-[var(--color-neon-cyan)] font-black tracking-widest border border-[var(--color-neon-cyan)]/30 px-1.5 py-0.5 ml-2">CA$H</span>
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
+                            ));
+                        })()}
                         <div className="bg-white/[0.02] border border-white/5 p-4 rounded-lg flex items-center justify-between">
                             <span className="text-[10px] font-black uppercase tracking-widest text-white/20">Traslado / Taxi</span>
                             <span className={`text-[10px] font-black uppercase tracking-widest ${taxiIncluded ? 'text-green-500' : 'text-red-500/50'}`}>
