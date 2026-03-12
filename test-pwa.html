@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PWA - Zynch</title>
+    <link rel="manifest" href="./zynch-landing/manifest.json">
+    <meta name="theme-color" content="#be2e57">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #312a30; 
+            color: white; 
+        }
+        .test-item { 
+            background: rgba(255,255,255,0.1); 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 8px; 
+        }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
+        .info { color: #60a5fa; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test PWA Zynch</h1>
+    
+    <div class="test-item">
+        <strong>1. Service Worker:</strong>
+        <div id="sw-status">Verificando...</div>
+    </div>
+    
+    <div class="test-item">
+        <strong>2. Manifest:</strong>
+        <div id="manifest-status">Verificando...</div>
+    </div>
+    
+    <div class="test-item">
+        <strong>3. Install Prompt:</strong>
+        <div id="install-status">Esperando...</div>
+    </div>
+    
+    <div class="test-item">
+        <strong>4. HTTPS:</strong>
+        <div id="https-status">Verificando...</div>
+    </div>
+
+    <script>
+        // Test 1: Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./zynch-landing/sw.js')
+                .then(reg => {
+                    document.getElementById('sw-status').innerHTML = 
+                        '<span class="success">✅ Service Worker registrado</span>';
+                    console.log('SW registrado:', reg);
+                })
+                .catch(err => {
+                    document.getElementById('sw-status').innerHTML = 
+                        '<span class="error">❌ Error Service Worker: ' + err.message + '</span>';
+                });
+        } else {
+            document.getElementById('sw-status').innerHTML = 
+                '<span class="error">❌ Service Worker no soportado</span>';
+        }
+
+        // Test 2: Manifest
+        fetch('./zynch-landing/manifest.json')
+            .then(response => response.json())
+            .then(manifest => {
+                document.getElementById('manifest-status').innerHTML = 
+                    '<span class="success">✅ Manifest cargado: ' + manifest.name + '</span>';
+            })
+            .catch(err => {
+                document.getElementById('manifest-status').innerHTML = 
+                    '<span class="error">❌ Error Manifest: ' + err.message + '</span>';
+            });
+
+        // Test 3: Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-status').innerHTML = 
+                '<span class="success">✅ Install prompt detectado</span>';
+        });
+
+        // Test 4: HTTPS
+        const isHttps = location.protocol === 'https:';
+        document.getElementById('https-status').innerHTML = isHttps ? 
+            '<span class="success">✅ HTTPS activo</span>' :
+            '<span class="error">❌ No es HTTPS (requerido para PWA)</span>';
+
+        // Log general
+        console.log('🧪 Test PWA iniciado');
+        console.log('📍 Protocolo:', location.protocol);
+        console.log('📍 User Agent:', navigator.userAgent);
+    </script>
+</body>
+</html>

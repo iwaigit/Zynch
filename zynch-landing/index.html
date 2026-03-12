@@ -466,7 +466,25 @@
             right: 20px;
             z-index: 10000;
             animation: slide-up 0.5s ease-out;
+            display: none; /* Oculto por defecto */
         }
+        
+        /* VISIBLE EN MÓVILES Y TABLETS */
+        @media (max-width: 1024px) {
+            .pwa-banner-fixed {
+                display: block; /* Visible en mobile y tablets */
+                left: 15px;
+                right: 15px;
+            }
+        }
+        
+        /* OCULTO EN DESKTOP GRANDE */
+        @media (min-width: 1025px) {
+            .pwa-banner-fixed {
+                display: none !important; /* Oculto en desktop grande */
+            }
+        }
+        
         @media (min-width: 768px) {
             .pwa-banner-fixed {
                 left: auto;
