@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEBUG PWA - Zynch</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#be2e57">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #312a30; 
+            color: white; 
+            line-height: 1.6;
+        }
+        .test-item { 
+            background: rgba(255,255,255,0.1); 
+            padding: 20px; 
+            margin: 15px 0; 
+            border-radius: 12px; 
+            border-left: 4px solid #be2e57;
+        }
+        .success { color: #4ade80; font-weight: bold; }
+        .error { color: #f87171; font-weight: bold; }
+        .warning { color: #fbbf24; font-weight: bold; }
+        .info { color: #60a5fa; }
+        .debug-btn {
+            background: #be2e57;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .debug-btn:hover { background: #840824; }
+        pre { 
+            background: rgba(0,0,0,0.3); 
+            padding: 10px; 
+            border-radius: 6px; 
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 DEBUG PWA - Zynch.app</h1>
+    
+    <div class="test-item">
+        <h3>1. 🔍 Información del Dispositivo</h3>
+        <div id="device-info">Cargando...</div>
+    </div>
+    
+    <div class="test-item">
+        <h3>2. 📱 Service Worker Status</h3>
+        <div id="sw-status">Verificando...</div>
+        <button class="debug-btn" onclick="testServiceWorker()">Forzar Registro SW</button>
+    </div>
+    
+    <div class="test-item">
+        <h3>3. 📋 Manifest Status</h3>
+        <div id="manifest-status">Verificando...</div>
+        <button class="debug-btn" onclick="testManifest()">Test Manifest</button>
+    </div>
+    
+    <div class="test-item">
+        <h3>4. 🚀 Install Prompt Status</h3>
+        <div id="install-status">Esperando evento...</div>
+        <button class="debug-btn" onclick="simulateInstall()">Simular Install</button>
+    </div>
+    
+    <div class="test-item">
+        <h3>5. 🔒 HTTPS Status</h3>
+        <div id="https-status">Verificando...</div>
+    </div>
+    
+    <div class="test-item">
+        <h3>6. 📊 Console Logs</h3>
+        <div id="console-logs">
+            <pre id="logs">Esperando logs...</pre>
+        </div>
+        <button class="debug-btn" onclick="clearLogs()">Limpiar Logs</button>
+    </div>
+
+    <script>
+        // Logger personalizado
+        const logs = [];
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            logs.push(logEntry);
+            document.getElementById('logs').textContent = logs.join('\n');
+            console.log(logEntry);
+        }
+
+        // 1. Información del dispositivo
+        function updateDeviceInfo() {
+            const info = `
+                <strong>User Agent:</strong> <span class="info">${navigator.userAgent}</span><br>
+                <strong>Screen:</strong> <span class="info">${screen.width}x${screen.height}</span><br>
+                <strong>Viewport:</strong> <span class="info">${window.innerWidth}x${window.innerHeight}</span><br>
+                <strong>Mobile:</strong> <span class="info">${/Mobi|Android/i.test(navigator.userAgent) ? 'YES' : 'NO'}</span><br>
+                <strong>Standalone:</strong> <span class="info">${window.matchMedia('(display-mode: standalone)').matches ? 'YES' : 'NO'}</span>
+            `;
+            document.getElementById('device-info').innerHTML = info;
+            log('Device info loaded', 'info');
+        }
+
+        // 2. Test Service Worker
+        function testServiceWorker() {
+            log('Testing Service Worker...', 'info');
+            
+            if (!('serviceWorker' in navigator)) {
+                document.getElementById('sw-status').innerHTML = '<span class="error">❌ Service Worker NO soportado</span>';
+                log('Service Worker not supported', 'error');
+                return;
+            }
+
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => {
+                    document.getElementById('sw-status').innerHTML = '<span class="success">✅ Service Worker registrado</span>';
+                    log(`SW registrado: ${reg.scope}`, 'success');
+                    
+                    // Verificar si está activo
+                    if (reg.active) {
+                        log('SW está activo', 'success');
+                    } else {
+                        log('SW está instalando...', 'warning');
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('sw-status').innerHTML = `<span class="error">❌ Error SW: ${err.message}</span>`;
+                    log(`SW Error: ${err.message}`, 'error');
+                });
+        }
+
+        // 3. Test Manifest
+        function testManifest() {
+            log('Testing Manifest...', 'info');
+            
+            fetch('./manifest.json')
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return response.json();
+                })
+                .then(manifest => {
+                    document.getElementById('manifest-status').innerHTML = `<span class="success">✅ Manifest cargado: ${manifest.name}</span>`;
+                    log(`Manifest: ${JSON.stringify(manifest, null, 2)}`, 'success');
+                })
+                .catch(err => {
+                    document.getElementById('manifest-status').innerHTML = `<span class="error">❌ Error Manifest: ${err.message}</span>`;
+                    log(`Manifest Error: ${err.message}`, 'error');
+                });
+        }
+
+        // 4. Simular Install
+        function simulateInstall() {
+            log('Simulando install prompt...', 'info');
+            
+            // Crear un evento falso para testing
+            const fakeEvent = {
+                preventDefault: () => log('Prevented default', 'info'),
+                prompt: () => {
+                    log('Prompt called', 'success');
+                    return Promise.resolve({ outcome: 'accepted' });
+                }
+            };
+            
+            // Simular el evento
+            setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('beforeinstallprompt', { detail: fakeEvent }));
+                log('Install prompt simulated', 'success');
+            }, 100);
+        }
+
+        // 5. HTTPS Status
+        function checkHTTPS() {
+            const isHttps = location.protocol === 'https:';
+            const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+            
+            if (isHttps || isLocalhost) {
+                document.getElementById('https-status').innerHTML = `<span class="success">✅ HTTPS activo (${location.protocol})</span>`;
+                log('HTTPS or localhost detected', 'success');
+            } else {
+                document.getElementById('https-status').innerHTML = `<span class="error">❌ NO HTTPS (${location.protocol})</span>`;
+                log('HTTPS required for PWA', 'error');
+            }
+        }
+
+        // 6. Clear Logs
+        function clearLogs() {
+            logs.length = 0;
+            document.getElementById('logs').textContent = 'Logs limpiados...';
+        }
+
+        // Install Prompt Listener
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-status').innerHTML = '<span class="success">✅ Install prompt detectado!</span>';
+            log('Install prompt detected!', 'success');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('install-status').innerHTML = '<span class="success">✅ App instalada!</span>';
+            log('App installed!', 'success');
+        });
+
+        // Inicializar todo
+        window.addEventListener('load', () => {
+            log('Page loaded, starting tests...', 'info');
+            updateDeviceInfo();
+            testServiceWorker();
+            testManifest();
+            checkHTTPS();
+        });
+
+        // Log resize events
+        window.addEventListener('resize', () => {
+            log(`Viewport resized: ${window.innerWidth}x${window.innerHeight}`, 'info');
+        });
+    </script>
+</body>
+</html>
