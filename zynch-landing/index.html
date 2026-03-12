@@ -521,6 +521,7 @@
     <div id="pwa-banner" style="display: none;" class="pwa-banner-fixed">
         <div class="pwa-banner-content">
             <div class="pwa-accent"></div>
+            <button class="pwa-close-x" id="pwa-close-x">×</button>
             <div class="pwa-flex">
                 <div class="pwa-icon">
                     <img src="./zynchito.png" alt="Zynchito Logo" class="pwa-zynchito-logo" />
@@ -581,6 +582,28 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             overflow: hidden;
         }
+        .pwa-close-x {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .pwa-close-x:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
         .pwa-accent {
             position: absolute;
             top: 0;
@@ -626,6 +649,7 @@
         const pwaBanner = document.getElementById('pwa-banner');
         const installBtn = document.getElementById('pwa-install-btn');
         const closeBtn = document.getElementById('pwa-close-btn');
+        const closeXBtn = document.getElementById('pwa-close-x');
         const headerInstallBtn = document.getElementById('install-app-header-btn');
 
         // Registro de Service Worker
@@ -672,6 +696,11 @@
             pwaBanner.style.display = 'none';
             // Mostrar header cuando se pulsa "Después"
             document.querySelector('.install-header').style.display = 'block';
+        });
+
+        closeXBtn.addEventListener('click', () => {
+            pwaBanner.style.display = 'none';
+            // No mostrar header al cerrar con X (opción directa de cerrar)
         });
 
         window.addEventListener('appinstalled', () => {
