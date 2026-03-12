@@ -6,7 +6,7 @@ import { useSiteConfig } from "@/hooks/useSiteConfig";
 
 export default function PedidosAdmin() {
     const { name, initials } = useSiteConfig();
-    const orders = useQuery(api.orders.listAll);
+    const orders = useQuery(api.orders.listAll, { tenantId: 'default-tenant' as any }); // Temporal
 
     return (
         <main className="flex-1 p-8 md:p-12 space-y-12">

@@ -31,11 +31,11 @@ export const uploadFile = mutation({
         // Generar ruta única
         const storagePath = generateStoragePath(args.tenantId, args.type, args.filename);
         
-        // Obtener info del archivo original
-        const originalFile = await ctx.storage.get(args.file);
-        if (!originalFile) {
-            throw new Error("Archivo original no encontrado");
-        }
+        // El archivo original ya está en storage, no necesitamos obtener metadata
+        // const originalFile = await ctx.storage.get(args.file);
+        // if (!originalFile) {
+        //     throw new Error("Archivo original no encontrado");
+        // }
         
         // Crear registro de storage con metadata
         const storageId = await ctx.db.insert("storageFiles", {
