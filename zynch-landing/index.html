@@ -292,9 +292,65 @@
             text-align: center;
         }
 
+        /* Header de Instalación Permanente */
+        .install-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(158, 173, 92, 0.9), rgba(132, 8, 36, 0.9));
+            backdrop-filter: blur(10px);
+            z-index: 999998;
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .install-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        .install-text {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+        }
+        .install-header-btn {
+            background: linear-gradient(135deg, #9ead5c, #840824);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(158, 173, 92, 0.3);
+        }
+        .install-header-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(158, 173, 92, 0.4);
+        }
+
         @media (max-width: 768px) {
+            .install-header-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            .install-text {
+                font-size: 12px;
+            }
+            .install-header-btn {
+                width: 100%;
+                max-width: 200px;
+            }
             .container {
                 padding: 1rem;
+                margin-top: 80px; /* Espacio para header */
             }
 
             .zynchito-logo {
@@ -367,6 +423,14 @@
 <body>
     <!-- Efecto visual de fondo -->
     <div class="glow"></div>
+
+    <!-- Header con Link Permanente de Instalación -->
+    <div class="install-header">
+        <div class="install-header-content">
+            <span class="install-text">📱 ¿Listo para el ecosistema Zynch?</span>
+            <button id="install-app-header-btn" class="install-header-btn">Instalar App</button>
+        </div>
+    </div>
 
     <div class="container">
         <img src="./zynchito.png" alt="Zynchito Logo" class="zynchito-logo" />
@@ -453,7 +517,9 @@
         <div class="pwa-banner-content">
             <div class="pwa-accent"></div>
             <div class="pwa-flex">
-                <div class="pwa-icon">🦎</div>
+                <div class="pwa-icon">
+                    <img src="./zynchito.png" alt="Zynchito Logo" class="pwa-zynchito-logo" />
+                </div>
                 <div class="pwa-text">
                     <h3>Instala Zynch.app</h3>
                     <p>Accede más rápido instalando nuestra App en tu inicio.</p>
@@ -520,11 +586,15 @@
         }
         .pwa-flex { display: flex; gap: 15px; align-items: flex-start; }
         .pwa-icon { 
-            font-size: 24px; 
             background: rgba(190, 46, 87, 0.1); 
             width: 45px; height: 45px; 
             display: flex; align-items: center; justify-content: center; 
             border-radius: 12px;
+        }
+        .pwa-zynchito-logo {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
         .pwa-text h3 { margin: 0; font-size: 16px; color: white; font-weight: 700; }
         .pwa-text p { margin: 5px 0 0 0; font-size: 13px; color: #a1a1aa; line-height: 1.4; }
@@ -551,6 +621,7 @@
         const pwaBanner = document.getElementById('pwa-banner');
         const installBtn = document.getElementById('pwa-install-btn');
         const closeBtn = document.getElementById('pwa-close-btn');
+        const headerInstallBtn = document.getElementById('install-app-header-btn');
 
         // Registro de Service Worker
         if ('serviceWorker' in navigator) {
@@ -561,20 +632,30 @@
             });
         }
 
+        // Función para mostrar install prompt
+        function showInstallPrompt() {
+            if (!deferredPrompt) {
+                // Si no hay prompt, mostrar mensaje informativo
+                alert('Para instalar Zynch.app:\n\n1. En Chrome: Toca el menú (⋮) → "Instalar aplicación"\n2. En Safari: Toca el botón de compartir → "Añadir a pantalla de inicio"\n\n¡Gracias por unirte al ecosistema Zynch!');
+                return;
+            }
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                console.log(`User response: ${choiceResult.outcome}`);
+                deferredPrompt = null;
+                pwaBanner.style.display = 'none';
+            });
+        }
+
+        // Event Listeners
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             pwaBanner.style.display = 'block';
         });
 
-        installBtn.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response: ${outcome}`);
-            deferredPrompt = null;
-            pwaBanner.style.display = 'none';
-        });
+        installBtn.addEventListener('click', showInstallPrompt);
+        headerInstallBtn.addEventListener('click', showInstallPrompt);
 
         closeBtn.addEventListener('click', () => {
             pwaBanner.style.display = 'none';
@@ -583,6 +664,11 @@
         window.addEventListener('appinstalled', () => {
             pwaBanner.style.display = 'none';
             deferredPrompt = null;
+            // Mostrar mensaje de éxito
+            const installText = document.querySelector('.install-text');
+            installText.textContent = '🎉 ¡Zynch.app instalada! Bienvenido al ecosistema';
+            headerInstallBtn.textContent = '✅ App Instalada';
+            headerInstallBtn.disabled = true;
         });
     </script>
 </body>
