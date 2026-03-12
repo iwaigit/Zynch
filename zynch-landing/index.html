@@ -660,10 +660,11 @@
         }
         .help-modal {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            bottom: auto; /* No ocupa toda la pantalla */
+            top: 50%; /* Centrado vertical */
+            left: 50%; /* Centrado horizontal */
+            right: auto;
+            bottom: auto;
+            transform: translate(-50%, -50%); /* Centrado perfecto */
             background: rgba(26, 26, 26, 0.9);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -852,8 +853,8 @@
             helpModal.className = 'help-modal';
             helpModal.innerHTML = `
                 <div class="help-content">
-                    <button class="help-close-x" onclick="this.closest('.help-modal').remove()">?</button>
-                    <h3>Ayuda Instalación</h3>
+                    <button class="help-close-x" onclick="this.closest('.help-modal').remove()">×</button>
+                    <h3>?Ayuda Instalación</h3>
                     <p><strong>Google Play Protect activado:</strong></p>
                     <ol>
                         <li>Ve a <strong>Settings</strong></li>
