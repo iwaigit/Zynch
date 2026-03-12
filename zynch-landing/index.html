@@ -494,42 +494,106 @@
         }
         .pwa-banner-content {
             position: relative;
-            background: rgba(26, 26, 26, 0.9);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            background: linear-gradient(135deg, rgba(49, 42, 48, 0.95), rgba(49, 42, 48, 0.85));
+            backdrop-filter: blur(20px) saturate(1.2);
+            border: 1px solid rgba(190, 46, 87, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(190, 46, 87, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .pwa-banner-content:hover {
+            transform: translateY(-2px);
         }
         .pwa-accent {
             position: absolute;
             top: 0;
             left: 0;
             height: 100%;
-            width: 4px;
-            background: #be2e57;
+            width: 6px;
+            background: linear-gradient(180deg, #be2e57, #840824);
+            border-radius: 3px 0 0 3px;
+            box-shadow: 0 0 10px rgba(190, 46, 87, 0.5);
         }
-        .pwa-flex { display: flex; gap: 15px; align-items: flex-start; }
+        .pwa-flex { 
+            display: flex; 
+            gap: 18px; 
+            align-items: flex-start; 
+        }
         .pwa-icon { 
-            font-size: 24px; 
-            background: rgba(190, 46, 87, 0.1); 
-            width: 45px; height: 45px; 
-            display: flex; align-items: center; justify-content: center; 
-            border-radius: 12px;
+            font-size: 28px; 
+            background: linear-gradient(135deg, rgba(190, 46, 87, 0.15), rgba(132, 8, 36, 0.1));
+            width: 52px; 
+            height: 52px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 16px;
+            border: 1px solid rgba(190, 46, 87, 0.2);
+            box-shadow: 0 4px 12px rgba(190, 46, 87, 0.2);
+            flex-shrink: 0;
         }
-        .pwa-text h3 { margin: 0; font-size: 16px; color: white; font-weight: 700; }
-        .pwa-text p { margin: 5px 0 0 0; font-size: 13px; color: #a1a1aa; line-height: 1.4; }
-        .pwa-buttons { margin-top: 15px; display: flex; gap: 10px; }
+        .pwa-text h3 { 
+            margin: 0; 
+            font-size: 17px; 
+            color: white; 
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.2px;
+        }
+        .pwa-text p { 
+            margin: 6px 0 0 0; 
+            font-size: 14px; 
+            color: #a2bfcc; 
+            line-height: 1.4;
+            font-weight: 400;
+        }
+        .pwa-buttons { 
+            margin-top: 18px; 
+            display: flex; 
+            gap: 12px; 
+        }
         .btn-primary { 
-            flex: 1; background: #be2e57; border: none; color: white; 
-            padding: 8px 15px; border-radius: 8px; font-weight: 700; font-size: 13px;
-            cursor: pointer; transition: transform 0.2s;
+            flex: 1; 
+            background: linear-gradient(135deg, #be2e57, #840824);
+            border: none; 
+            color: white; 
+            padding: 10px 18px; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            font-size: 14px;
+            cursor: pointer; 
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(190, 46, 87, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(190, 46, 87, 0.4);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
         }
         .btn-secondary {
-            background: rgba(255,255,255,0.05); border: none; color: #a1a1aa;
-            padding: 8px 15px; border-radius: 8px; font-weight: 500; font-size: 13px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #a2bfcc;
+            padding: 10px 18px; 
+            border-radius: 12px; 
+            font-weight: 500; 
+            font-size: 14px;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.2);
+            color: white;
         }
         @keyframes slide-up {
             from { transform: translateY(100px); opacity: 0; }
