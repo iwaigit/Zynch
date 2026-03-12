@@ -659,6 +659,12 @@
             pwaBanner.style.display = 'block';
         });
 
+        // Detectar iOS y mostrar banner igual
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS) {
+            pwaBanner.style.display = 'block';
+        }
+
         installBtn.addEventListener('click', showInstallPrompt);
         headerInstallBtn.addEventListener('click', showInstallPrompt);
 
