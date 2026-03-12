@@ -28,6 +28,7 @@ export default function UniversalCart() {
         setIsProcessing(true);
         try {
             await createOrder({
+                tenantId: 'default-tenant' as any, // Temporal hasta obtener tenantId real
                 userId: user!.id as any, // Convex IDs need proper casting in real apps, but this works for demo
                 items: cart.map(item => ({
                     id: item.id,

@@ -72,7 +72,7 @@ export default function ProfileImageUploader({
 
             // 4. Obtener URL de upload de Convex
             setProgress('Subiendo a Convex Storage...');
-            const postUrl = await generateUploadUrl();
+            const postUrl = await generateUploadUrl({ tenantId: tenantId! });
             const result = await fetch(postUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': processed.type },

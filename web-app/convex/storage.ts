@@ -32,7 +32,7 @@ export const uploadFile = mutation({
         const storagePath = generateStoragePath(args.tenantId, args.type, args.filename);
         
         // Obtener info del archivo original
-        const originalFile = await ctx.db.get(args.file);
+        const originalFile = await ctx.storage.get(args.file);
         if (!originalFile) {
             throw new Error("Archivo original no encontrado");
         }
@@ -87,7 +87,7 @@ export const getFileUrl = query({
         const url = await ctx.storage.getUrl(storageRecord.originalFileId);
         
         return {
-            url: url.url,
+            url: url || null,
             filename: storageRecord.filename,
             type: storageRecord.type,
             uploadedAt: storageRecord.uploadedAt,
@@ -121,7 +121,7 @@ export const listFilesByType = query({
                 const url = await ctx.storage.getUrl(file.originalFileId);
                 return {
                     ...file,
-                    url: url.url,
+                    url: url || null,
                 };
             })
         );
