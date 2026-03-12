@@ -45,3 +45,15 @@ jobs:
         run: npx convex dev --once --no-open
         working-directory: ./web-app
         continue-on-error: true # Temporal hasta tener tests formales
+
+      - name: Multi-tenant validation check
+        run: |
+          echo "🔍 Validando aislamiento multi-tenant..."
+          # Verificar que no haya hardcoded tenant IDs
+          if grep -r "tenant.*=.*['\"]" web-app/ --include="*.ts" --include="*.tsx" --exclude-dir=node_modules; then
+            echo "⚠️  Posibles tenant IDs hardcodeados encontrados"
+            exit 1
+          fi
+          echo "✅ Validación multi-tenant básica pasada"
+        working-directory: ./web-app
+        continue-on-error: true
