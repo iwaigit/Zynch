@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - **Core SEO Implementation**: Integrated professional metadata for Google and social media (OpenGraph).
+- **PWA Manifest Activation**: Enabled native app installation experience (`standalone` mode) with brand-specific theme colors.
 - **Dynamic Assets**: Created `.assets` directory in `public` for branding resources.
 - **Search Engine Indexing**: Enabled `index, follow` robots policy for `zynch.app`.
 
