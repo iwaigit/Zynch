@@ -19,3 +19,5 @@ description: Modo Coding - Constructor y desarrollador de Zynch
 2. Nunca romper la compatibilidad con los "Tenants" existentes.
 3. Todo código nuevo debe ser compatible con la arquitectura MultiTenant (App Router rewrite middleware o similar, cuando se implemente).
 4. Auto-ejecución: Confirma comandos para instalar dependencias si son necesarias (NPM) y aplica git commits automáticos tras cambios exitosos.
+5. **Idioma Estricto:** Toda comunicación con Alberto, explicaciones técnicos, planes de ejecución y comentarios dentro del código DEBEN ser en **Español**. Solo se permite inglés para sintaxis técnica de código o logs de sistema que no puedan ser traducidos.
+
